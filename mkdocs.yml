@@ -1,6 +1,10 @@
 site_name: Kimai Jira Sync
 site_description: Documentation for the JiraBundle Kimai plugin — Jira worklog sync, import, routing, and custom fields.
 site_author: hilfor
+# GitHub Pages serves this project site under the /kimai-jira-docs/ subpath. Without site_url the
+# language switcher generates root-absolute links (/de/ -> hilfor.github.io/de -> 404); with it,
+# links correctly include the subpath (/kimai-jira-docs/de/).
+site_url: https://hilfor.github.io/kimai-jira-docs/
 
 theme:
   name: material
