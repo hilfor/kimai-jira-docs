@@ -16,10 +16,15 @@ visible, internals hidden" means here.
 
 ## Source of truth
 
-`docs/features/` and `docs/img/` are the **same files that ship inside the plugin ZIP**, kept in
-the private plugin repo. They are synced here on each plugin release (README-to-`index.md` links
-are rewritten from `../../README.md` to `../index.md` for the site). Edit docs in the plugin repo,
-not here, to avoid drift.
+**This repo is the single source of truth for the user-facing documentation.** The per-feature
+guides (`docs/features/`), screenshots (`docs/img/`), install/configure pages, and the EN/DE
+translations all live here — edit them here.
+
+The plugin repo deliberately keeps **no** `docs/features` or `docs/img` (that duplication is what
+used to drift), and its own `docs/` tree is `export-ignore`d, so the plugin ZIP ships only
+`README.md` + `LICENSE` (plus the runtime code). The plugin README is a summary + quick start that
+links here for the deep guides and references this site's images by URL. See the plugin repo's
+`docs/dev/docs.md` for the same policy from the other side.
 
 ## Local preview
 

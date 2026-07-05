@@ -50,4 +50,4 @@ Support requests start with the plugin's own log: `var/log/jira-<env>-<date>.log
 - Set `framework.router.default_uri` so links in cron-sent mail point at your real domain, not
   `localhost`. Failures are logged on the `jira` channel and never crash the run.
 
-See also: [notifications](notifications.md) · main [README](../index.md).
+See also: [notifications](notifications.md) · the [overview](../index.md).

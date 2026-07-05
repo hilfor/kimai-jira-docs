@@ -36,6 +36,6 @@ The warning set is rewritten every run, so fixing a mapping clears it everywhere
 
 Escalation/digest emails need a working `MAILER_DSN` and an absolute link back to Kimai — set
 `framework.router.default_uri` (or the router request context) so links in cron-sent mail resolve
-to your real domain. See the [README](../index.md) for details.
+to your real domain. See the [overview](../index.md) for details.
 
 See also: [worklog sync](worklog-sync.md) · [custom fields](custom-fields.md).

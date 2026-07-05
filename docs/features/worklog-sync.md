@@ -34,7 +34,7 @@ anything that could not sync inline.
 
 ## Setup
 
-See the main [README](../index.md) for the instance settings (server URL, auth mode, sync
+See the [overview](../index.md) for the instance settings (server URL, auth mode, sync
 mode), the per-user token page, and the cron entry for `kimai:jira:sync`.
 
 See also: [importing](importing.md) · [notifications](notifications.md) ·
