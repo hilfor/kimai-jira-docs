@@ -50,49 +50,10 @@ wöchentlichen Zusammenfassung –, sodass eine fehlende Kostenstelle bei der Re
 
 ![Das Jira-Sync-Dashboard-Widget mit einer Import-Warnzeile.](img/dashboard-import-warning.png)
 
-## Installation
+## Loslegen
 
-Dies ist ein kostenpflichtiges Plugin, das als Release-ZIP ausgeliefert wird. In das
-`var/plugins/`-Verzeichnis Ihrer Kimai-Installation entpacken und den Installer ausführen:
-
-```bash
-cd /path/to/kimai
-unzip JiraBundle-vX.Y.Z.zip -d var/plugins/   # entpackt nach var/plugins/JiraBundle/
-bin/console kimai:bundle:jira:install         # legt die plugin-eigene Tabelle an
-bin/console cache:clear
-```
-
-Voraussetzungen: **Kimai ≥ 2.21.0**, **PHP ≥ 8.2** und `ext-sodium` (für den verschlüsselten
-Token-Speicher).
-
-## Einrichtung
-
-1. Als Administrator die Jira-**Server-URL** und den **Auth-Modus** unter **System →
-   Einstellungen → Jira** festlegen.
-2. Jeder Benutzer öffnet **Jira-Einstellungen** in seinem Benutzermenü und fügt sein eigenes Token
-   ein – eine Schaltfläche **Verbindung testen** meldet ein konkretes Ergebnis (abgelehnte
-   Zugangsdaten / DNS / TLS / Zeitüberschreitung).
-3. Das **Jira-Vorgang**-Feld an einem Zeiteintrag ausfüllen – das Worklog erscheint, sobald der
-   Eintrag mit Endzeit gestoppt oder gespeichert wird.
-
-![Die benutzereigene Jira-Einstellungsseite: maskierter Token-Hinweis, grüner „Gültig“-Status sowie „Verbindung testen“ / „Token löschen“.](img/settings-page.png)
-*Jeder Benutzer verwaltet hier sein **eigenes** Token – es wird verschlüsselt gespeichert und nie
-zurückgezeigt.*
-
-Einen Cron-Eintrag für den Hintergrund-Abgleich hinzufügen (und, falls der Import aktiviert wird,
-für den Importer):
-
-```bash
-*/5 * * * * cd /path/to/kimai && bin/console kimai:jira:sync  >> var/log/jira-cron.log 2>&1
-0   * * * * cd /path/to/kimai && bin/console kimai:jira:import >> var/log/jira-cron.log 2>&1
-```
-
-## Anleitungen
-
-- [Worklog-Sync (Kimai → Jira)](features/worklog-sync.md)
-- [Import (Jira → Kimai)](features/importing.md)
-- [Projektbezogenes Routing](features/project-routing.md)
-- [Automatisches Anlegen (Opt-in)](features/auto-create.md)
-- [Benutzerfeld-Übernahme](features/custom-fields.md)
-- [Benachrichtigungen & Sichtbarkeit](features/notifications.md)
-- [Fehlerbehebung](features/troubleshooting.md)
+- **[Installation](install.md)** – das ZIP nach `var/plugins/` entpacken, den Installer ausführen
+  (inkl. Voraussetzungs-Check für Ihr DevOps-Team).
+- **[Einrichtung](configure.md)** – Server-URL, benutzereigene Token und die Cron-Einträge.
+- **[Anleitungen](features/worklog-sync.md)** – eine Seite pro Funktion: Worklog-Sync, Import,
+  Routing, automatisches Anlegen, Benutzerfelder, Benachrichtigungen und Fehlerbehebung.

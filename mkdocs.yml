@@ -35,13 +35,16 @@ theme:
 
 nav:
   - Home: index.md
-  - Worklog sync (Kimai → Jira): features/worklog-sync.md
-  - Importing (Jira → Kimai): features/importing.md
-  - Per-project routing: features/project-routing.md
-  - Opt-in auto-create: features/auto-create.md
-  - Custom-field passthrough: features/custom-fields.md
-  - Notifications & visibility: features/notifications.md
-  - Troubleshooting: features/troubleshooting.md
+  - Install: install.md
+  - Configure: configure.md
+  - Guides:
+      - Worklog sync (Kimai → Jira): features/worklog-sync.md
+      - Importing (Jira → Kimai): features/importing.md
+      - Per-project routing: features/project-routing.md
+      - Opt-in auto-create: features/auto-create.md
+      - Custom-field passthrough: features/custom-fields.md
+      - Notifications & visibility: features/notifications.md
+      - Troubleshooting: features/troubleshooting.md
 
 markdown_extensions:
   - admonition
@@ -70,6 +73,9 @@ plugins:
           build: true
           nav_translations:
             Home: Start
+            Install: Installation
+            Configure: Einrichtung
+            Guides: Anleitungen
             "Worklog sync (Kimai → Jira)": "Worklog-Sync (Kimai → Jira)"
             "Importing (Jira → Kimai)": "Import (Jira → Kimai)"
             Per-project routing: Projektbezogenes Routing

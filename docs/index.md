@@ -44,45 +44,10 @@ a surprise at invoicing time ([custom fields](features/custom-fields.md)):
 
 ![The Jira sync dashboard widget showing an import-warning line.](img/dashboard-import-warning.png)
 
-## Install
+## Get started
 
-This is a paid plugin distributed as a release ZIP. Extract it into your Kimai's `var/plugins/`
-and run the installer:
-
-```bash
-cd /path/to/kimai
-unzip JiraBundle-vX.Y.Z.zip -d var/plugins/   # extracts to var/plugins/JiraBundle/
-bin/console kimai:bundle:jira:install         # creates the plugin's own table
-bin/console cache:clear
-```
-
-Requires **Kimai ≥ 2.21.0**, **PHP ≥ 8.2**, and `ext-sodium` (for the encrypted token vault).
-
-## Configure
-
-1. As an admin, set the Jira **server URL** and **auth mode** under **System → Settings → Jira**.
-2. Each user opens **Jira settings** from their user menu and pastes their own token — a **Test
-   connection** button reports a specific result (rejected credentials / DNS / TLS / timeout).
-3. Fill the **Jira issue** field on a timesheet — the worklog appears once the entry is stopped or
-   saved with an end time.
-
-![The per-user Jira settings page: a masked token hint, a green "Valid" status, and Test
-connection / Delete token buttons.](img/settings-page.png)
-*Every user manages their **own** token here — it is encrypted at rest and never shown back.*
-
-Add a cron entry for the background reconciler (and, if you enable importing, the importer):
-
-```bash
-*/5 * * * * cd /path/to/kimai && bin/console kimai:jira:sync  >> var/log/jira-cron.log 2>&1
-0   * * * * cd /path/to/kimai && bin/console kimai:jira:import >> var/log/jira-cron.log 2>&1
-```
-
-## Guides
-
-- [Worklog sync (Kimai → Jira)](features/worklog-sync.md)
-- [Importing (Jira → Kimai)](features/importing.md)
-- [Per-project routing](features/project-routing.md)
-- [Opt-in auto-create](features/auto-create.md)
-- [Custom-field passthrough](features/custom-fields.md)
-- [Notifications & visibility](features/notifications.md)
-- [Troubleshooting](features/troubleshooting.md)
+- **[Install](install.md)** — drop the ZIP into `var/plugins/`, run the installer (with a
+  requirements check for your DevOps).
+- **[Configure](configure.md)** — server URL, per-user tokens, and the cron entries.
+- **[Guides](features/worklog-sync.md)** — a page per capability: worklog sync, importing,
+  routing, auto-create, custom fields, notifications, and troubleshooting.
