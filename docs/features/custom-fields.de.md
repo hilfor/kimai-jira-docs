@@ -14,9 +14,11 @@ customfield_10012 = cost_centre
 duedate = due_date
 ```
 
-- **Links** = die Jira-Feld-ID (`customfield_<n>`, oder ein Systemfeld wie `duedate`). Die ID
-  eines Felds finden Sie in Jira unter *Einstellungen → Vorgänge → Benutzerdefinierte Felder* oder
-  über `GET /rest/api/2/field`.
+- **Links** = die Jira-Feld-ID (`customfield_<n>`, oder ein Systemfeld wie `duedate`). Sie müssen
+  eine ID selten von Hand nachschlagen: Mit einem gültigen Jira-Token listet ein Helfer
+  **Jira-Feld einfügen…** unterhalb des Zuordnungsfelds Ihre Jira-Felder (ID + Name) und hängt die
+  Zeile `customfield_… = ` für Sie an. Die ID finden Sie auch in Jira unter *Einstellungen →
+  Vorgänge → Benutzerdefinierte Felder* oder über `GET /rest/api/2/field`.
 - **Rechts** = der Name des **Kimai-Zeiteintrag-Benutzerfelds**, in das kopiert wird. Er muss
   klein geschrieben sein (Buchstaben, Ziffern, Unterstrich) und darf nicht mit `jira_` beginnen
   (reserviert). Legen Sie das passende Kimai-Benutzerfeld zuerst an (System → Benutzerfelder),

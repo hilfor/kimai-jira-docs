@@ -12,8 +12,10 @@ customfield_10012 = cost_centre
 duedate = due_date
 ```
 
-- **Left** = the Jira field id (`customfield_<n>`, or a system field like `duedate`). You can find
-  a field's id in Jira under *Settings → Issues → Custom fields*, or via
+- **Left** = the Jira field id (`customfield_<n>`, or a system field like `duedate`). You rarely
+  need to look one up by hand: with a valid Jira token, an **Insert a Jira field…** helper below
+  the mapping box lists your Jira fields (id + human name) and appends the `customfield_… = ` line
+  for you. You can also find a field's id in Jira under *Settings → Issues → Custom fields* or via
   `GET /rest/api/2/field`.
 - **Right** = the Kimai **timesheet custom field** name to copy it into. It must be lowercase
   (letters, digits, underscore) and cannot start with `jira_` (reserved). Create the matching

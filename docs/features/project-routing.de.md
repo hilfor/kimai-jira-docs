@@ -23,6 +23,12 @@ Sie ein:
 Die Zuordnung liegt **am Projekt selbst**, wird also mit dem Projekt angelegt und gelöscht – es
 gibt keine separate Tabelle oder Seite, die synchron gehalten werden müsste.
 
+!!! tip "Autovervollständigung"
+    Mit einem gültigen Jira-Token (aus Ihren **Jira-Einstellungen**) schlägt das Feld
+    **Jira-Projektschlüssel** während der Eingabe Ihre Jira-Projekte vor (`KEY — Name`), sodass
+    Sie sich die genauen Schlüssel nicht merken müssen. Ohne Token bleibt es ein einfaches
+    Textfeld – die Funktion ist reine Komfortfunktion.
+
 ## Auflösungsreihenfolge
 
 Für jeden importierten Vorgangsschlüssel wählt der Importer das Ziel in dieser Reihenfolge:

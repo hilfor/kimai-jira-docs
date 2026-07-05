@@ -19,6 +19,11 @@ Each Kimai project **claims** the Jira project key(s) it owns. Open a project's 
 The mapping lives **on the project**, so it is created and deleted with the project — there is no
 separate table or screen to keep in sync.
 
+!!! tip "Autocomplete"
+    When you have a valid Jira token (from your **Jira settings**), the **Jira project key(s)**
+    field suggests your Jira projects as you type (`KEY — Name`), so you don't have to remember
+    the exact keys. Without a token it stays a plain text field — the feature is pure convenience.
+
 ## Resolution order
 
 For each imported issue key, the importer picks the target in this order:
