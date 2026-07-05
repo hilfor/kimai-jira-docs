@@ -1,0 +1,50 @@
+site_name: Kimai Jira Sync
+site_description: Documentation for the JiraBundle Kimai plugin — Jira worklog sync, import, routing, and custom fields.
+site_author: hilfor
+
+theme:
+  name: material
+  icon:
+    logo: material/sync
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - toc.integrate
+
+nav:
+  - Home: index.md
+  - Worklog sync (Kimai → Jira): features/worklog-sync.md
+  - Importing (Jira → Kimai): features/importing.md
+  - Per-project routing: features/project-routing.md
+  - Opt-in auto-create: features/auto-create.md
+  - Custom-field passthrough: features/custom-fields.md
+  - Notifications & visibility: features/notifications.md
+  - Troubleshooting: features/troubleshooting.md
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+
+# Only the docs/ tree is built into the site — no plugin source, tests, or internal planning is
+# present in this repository at all (see README).
