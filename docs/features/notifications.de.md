@@ -23,6 +23,8 @@ bringen (ein defekter Mail-Transport wird protokolliert und verschluckt).
 
 ## Import-Warnungen (Benutzerfelder)
 
+![Das Jira-Sync-Dashboard-Widget mit einer Import-Warnzeile.](../img/dashboard-import-warning.png)
+
 Wenn der Importer ein [Benutzerfeld überspringt](custom-fields.md), das er nicht importieren
 konnte, gilt dasselbe Prinzip – die Auslassung wird **gesehen, nicht durchsucht**:
 

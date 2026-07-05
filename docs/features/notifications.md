@@ -19,6 +19,8 @@ mail transport is logged and swallowed).
 
 ## Import warnings (custom fields)
 
+![The Jira sync dashboard widget showing an import-warning line.](../img/dashboard-import-warning.png)
+
 When the importer [skips a custom field](custom-fields.md) it could not import, the same idea
 applies — the skip is **seen, not grepped**:
 

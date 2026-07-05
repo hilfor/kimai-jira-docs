@@ -4,6 +4,8 @@ By default the importer files every imported worklog under one project
 (`jira.import_project`). That is wrong when your Jira instance has **many projects** — you want
 `PROJ-123` under one Kimai project and `OPS-9` under another. Per-project routing does that.
 
+![The Jira project-key and import-activity fields on a Kimai project's edit form.](../img/project-jira-keys.png)
+
 ## How it works
 
 Each Kimai project **claims** the Jira project key(s) it owns. Open a project's normal edit form
