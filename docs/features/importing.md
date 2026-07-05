@@ -1,8 +1,7 @@
 # Importing Jira worklogs (Jira → Kimai)
 
 The reverse direction: developers who log time in Jira can have those worklogs flow into Kimai as
-timesheets, instead of double-entering
-([kimai/kimai#3929](https://github.com/kimai/kimai/issues/3929)).
+timesheets, instead of double-entering.
 
 ## Identity model — own worklogs only
 

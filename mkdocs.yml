@@ -22,7 +22,8 @@ theme:
         icon: material/weather-sunny
         name: Switch to light mode
   features:
-    - navigation.instant
+    # navigation.instant is intentionally omitted — it breaks the i18n language switcher's
+    # contextual (same-page) links between the English and German versions.
     - navigation.sections
     - navigation.top
     - content.code.copy
@@ -45,6 +46,33 @@ markdown_extensions:
       permalink: true
   - pymdownx.highlight
   - pymdownx.superfences
+
+# English + German, with a language switcher in the header. German pages are the *.de.md siblings
+# (docs_structure: suffix); reconfigure_material wires up Material's built-in language selector.
+plugins:
+  - search
+  - i18n:
+      docs_structure: suffix
+      fallback_to_default: true
+      reconfigure_material: true
+      reconfigure_search: true
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+        - locale: de
+          name: Deutsch
+          build: true
+          nav_translations:
+            Home: Start
+            "Worklog sync (Kimai → Jira)": "Worklog-Sync (Kimai → Jira)"
+            "Importing (Jira → Kimai)": "Import (Jira → Kimai)"
+            Per-project routing: Projektbezogenes Routing
+            Opt-in auto-create: Automatisches Anlegen (Opt-in)
+            Custom-field passthrough: Benutzerfeld-Übernahme
+            "Notifications & visibility": "Benachrichtigungen & Sichtbarkeit"
+            Troubleshooting: Fehlerbehebung
 
 # Only the docs/ tree is built into the site — no plugin source, tests, or internal planning is
 # present in this repository at all (see README).

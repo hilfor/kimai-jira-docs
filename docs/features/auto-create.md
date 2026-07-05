@@ -4,9 +4,6 @@ When you track time against many Jira tickets, pre-creating a Kimai project for 
 Auto-create lets **structure emerge from real work**: a Jira key that no project claims yet gets a
 Kimai project created for it on import.
 
-This answers the community ask [kimai/kimai#4439](https://github.com/kimai/kimai/issues/4439) that
-Kimai core does not offer.
-
 ## Enabling it
 
 Under **System → Settings → Jira**:
