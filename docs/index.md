@@ -5,8 +5,9 @@ pushes tracked time to Jira as worklogs — authenticated with each user's **own
 token (Jira Server / Data Center) or API token (Jira Cloud). Time tracking keeps working even when
 Jira is unreachable; the sync catches up in the background.
 
-![Kimai Jira settings page: a masked token hint, a green "Valid" connection status, and Test
-connection / Delete token buttons.](img/settings-page.png)
+![The Jira issue field on a timesheet, live-validated against Jira as you type.](img/timesheet-field.png)
+*The **Jira issue** field on a timesheet — validated live as you type, and a clickable link to the
+ticket.*
 
 ## What it does
 
@@ -23,6 +24,25 @@ connection / Delete token buttons.](img/settings-page.png)
 
 Each user stores their own credential; tokens are **encrypted at rest** and never shared, logged,
 or returned by any API.
+
+## See it in action
+
+**One settings page** for the whole integration — sync behaviour, the opt-in import, auto-create,
+and the custom-field mapping:
+
+![System → Settings → Jira showing sync, import, auto-create, and custom-field settings.](img/system-settings-jira.png)
+
+**Imports route themselves by Jira project.** Each Kimai project claims the Jira key(s) it owns on
+its own edit form, so `PROJ-123` and `OPS-9` land under different projects
+([per-project routing](features/project-routing.md), [auto-create](features/auto-create.md)):
+
+![The Jira project-key and import-activity fields on a Kimai project's edit form.](img/project-jira-keys.png)
+
+**Nothing fails silently.** A Jira custom field the importer can't handle is skipped **and shown** —
+on the dashboard widget, an admin banner, and the weekly digest — so a missing cost centre is never
+a surprise at invoicing time ([custom fields](features/custom-fields.md)):
+
+![The Jira sync dashboard widget showing an import-warning line.](img/dashboard-import-warning.png)
 
 ## Install
 
@@ -45,6 +65,10 @@ Requires **Kimai ≥ 2.21.0**, **PHP ≥ 8.2**, and `ext-sodium` (for the encryp
    connection** button reports a specific result (rejected credentials / DNS / TLS / timeout).
 3. Fill the **Jira issue** field on a timesheet — the worklog appears once the entry is stopped or
    saved with an end time.
+
+![The per-user Jira settings page: a masked token hint, a green "Valid" status, and Test
+connection / Delete token buttons.](img/settings-page.png)
+*Every user manages their **own** token here — it is encrypted at rest and never shown back.*
 
 Add a cron entry for the background reconciler (and, if you enable importing, the importer):
 

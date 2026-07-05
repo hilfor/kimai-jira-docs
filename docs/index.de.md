@@ -6,8 +6,9 @@ verknüpft und die erfasste Zeit als Worklog nach Jira überträgt – authentif
 (Jira Cloud). Die Zeiterfassung funktioniert auch dann weiter, wenn Jira nicht erreichbar ist; die
 Synchronisierung holt im Hintergrund auf.
 
-![Kimai-Jira-Einstellungsseite: maskierter Token-Hinweis, grüner „Gültig“-Verbindungsstatus sowie
-die Schaltflächen „Verbindung testen“ / „Token löschen“.](img/settings-page.png)
+![Das Jira-Vorgang-Feld an einem Zeiteintrag, das während der Eingabe live gegen Jira geprüft wird.](img/timesheet-field.png)
+*Das **Jira-Vorgang**-Feld an einem Zeiteintrag – während der Eingabe live geprüft, mit
+anklickbarem Link zum Ticket.*
 
 ## Was es kann
 
@@ -27,6 +28,27 @@ die Schaltflächen „Verbindung testen“ / „Token löschen“.](img/settings
 
 Jeder Benutzer speichert seine eigenen Zugangsdaten; Token werden **verschlüsselt gespeichert** und
 niemals geteilt, protokolliert oder von einer API zurückgegeben.
+
+## In Aktion
+
+**Eine Einstellungsseite** für die gesamte Integration – Sync-Verhalten, der aktivierbare Import,
+automatisches Anlegen und die Benutzerfeld-Zuordnung:
+
+![System → Einstellungen → Jira mit Sync-, Import-, Auto-Anlege- und Benutzerfeld-Einstellungen.](img/system-settings-jira.png)
+
+**Importe routen sich selbst nach Jira-Projekt.** Jedes Kimai-Projekt beansprucht auf seinem
+Bearbeitungsformular die Jira-Schlüssel, die zu ihm gehören, sodass `PROJ-123` und `OPS-9` unter
+verschiedenen Projekten landen ([projektbezogenes Routing](features/project-routing.md),
+[automatisches Anlegen](features/auto-create.md)):
+
+![Die Felder „Jira-Projektschlüssel“ und „Jira-Importtätigkeit“ im Bearbeitungsformular eines Kimai-Projekts.](img/project-jira-keys.png)
+
+**Nichts schlägt stillschweigend fehl.** Ein Jira-Benutzerfeld, das der Importer nicht verarbeiten
+kann, wird übersprungen **und angezeigt** – im Dashboard-Widget, in einem Admin-Banner und in der
+wöchentlichen Zusammenfassung –, sodass eine fehlende Kostenstelle bei der Rechnungsstellung nie
+überrascht ([Benutzerfelder](features/custom-fields.md)):
+
+![Das Jira-Sync-Dashboard-Widget mit einer Import-Warnzeile.](img/dashboard-import-warning.png)
 
 ## Installation
 
@@ -52,6 +74,10 @@ Token-Speicher).
    Zugangsdaten / DNS / TLS / Zeitüberschreitung).
 3. Das **Jira-Vorgang**-Feld an einem Zeiteintrag ausfüllen – das Worklog erscheint, sobald der
    Eintrag mit Endzeit gestoppt oder gespeichert wird.
+
+![Die benutzereigene Jira-Einstellungsseite: maskierter Token-Hinweis, grüner „Gültig“-Status sowie „Verbindung testen“ / „Token löschen“.](img/settings-page.png)
+*Jeder Benutzer verwaltet hier sein **eigenes** Token – es wird verschlüsselt gespeichert und nie
+zurückgezeigt.*
 
 Einen Cron-Eintrag für den Hintergrund-Abgleich hinzufügen (und, falls der Import aktiviert wird,
 für den Importer):
