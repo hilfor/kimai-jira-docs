@@ -23,6 +23,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # Fail if any English content page has no German (*.de.md) sibling. Catches "added an EN
+      # page, forgot the DE one" - the one drift a build can detect (content-level translation
+      # freshness is still a human review).
+      - name: Check every page has a German translation
+        run: |
+          missing=0
+          while IFS= read -r f; do
+            case "$f" in *.de.md) continue;; esac
+            de="${f%.md}.de.md"
+            if [ ! -f "$de" ]; then
+              echo "::error file=$f::Missing German translation: expected $de"
+              missing=1
+            fi
+          done < <(find docs -name '*.md')
+          if [ "$missing" -ne 0 ]; then
+            echo "One or more pages are missing a *.de.md translation (see errors above)."
+            exit 1
+          fi
+          echo "All pages have a German translation."
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
