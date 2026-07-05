@@ -11,6 +11,12 @@ entry out of Jira. As a timesheet column it renders as a **clickable link** to t
 the key is **live-validated** against Jira as you type (showing the issue summary or a "not found"
 hint) — advisory only, it never blocks saving.
 
+You don't have to type the bare key: **paste whatever you have** and it is normalized to the
+canonical key on save. A full ticket URL (`https://your-jira/browse/PROJ-123?jql=…`), a board or
+backlog link (`…?selectedIssue=PROJ-123`, `…?issueKey=OPS-7`), or a casually-typed key (lowercase,
+stray whitespace) all become `PROJ-123`. Text that contains no key is left untouched so the format
+validation still catches it.
+
 ## When a worklog is created
 
 A worklog is created/updated once the entry has **both** an end time and an issue key **and** the

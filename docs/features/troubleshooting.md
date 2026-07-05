@@ -35,6 +35,15 @@ Support requests start with the plugin's own log: `var/log/jira-<env>-<date>.log
 - The Kimai side must be a real timesheet custom field (System → Customfields) with a lowercase
   name not starting with `jira_`.
 
+## A Jira project or field is missing from a dropdown
+
+- The **project-key** and **custom-field** pickers read their options from Jira, but the answer is
+  **cached per user for ~10 minutes** to keep the forms fast. A project, field, or permission you
+  just changed in Jira can take up to that long to appear. Wait it out, or run `bin/console
+  cache:clear` to drop the cached lookups immediately.
+- If it never appears, it's not the cache — the token can't see it: confirm the account has
+  permission on that Jira project, then re-open the form.
+
 ## Emails don't arrive
 
 - A working `MAILER_DSN` is required, and `ext-xsl` (Kimai core needs it to render any mail).

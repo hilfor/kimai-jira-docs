@@ -41,6 +41,16 @@ Support-Anfragen beginnen mit dem plugin-eigenen Log: `var/log/jira-<env>-<date>
 - Die Kimai-Seite muss ein echtes Zeiteintrag-Benutzerfeld sein (System → Benutzerfelder) mit
   einem klein geschriebenen Namen, der nicht mit `jira_` beginnt.
 
+## Ein Jira-Projekt oder -Feld fehlt in einer Auswahlliste
+
+- Die Auswahllisten für **Projektschlüssel** und **Benutzerfelder** beziehen ihre Optionen aus
+  Jira, doch die Antwort wird **pro Benutzer für ~10 Minuten zwischengespeichert**, damit die
+  Formulare schnell bleiben. Ein Projekt, Feld oder eine Berechtigung, die Sie gerade in Jira
+  geändert haben, kann bis zu dieser Zeit brauchen, um zu erscheinen. Warten Sie ab, oder führen
+  Sie `bin/console cache:clear` aus, um die zwischengespeicherten Abfragen sofort zu verwerfen.
+- Erscheint es nie, liegt es nicht am Cache – das Token kann es nicht sehen: prüfen Sie, ob das
+  Konto Berechtigung auf dieses Jira-Projekt hat, und öffnen Sie das Formular erneut.
+
 ## E-Mails kommen nicht an
 
 - Ein funktionierendes `MAILER_DSN` ist erforderlich, ebenso `ext-xsl` (Kimai-Core benötigt es, um

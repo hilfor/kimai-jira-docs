@@ -12,6 +12,13 @@ Ticket dargestellt, und der Schlüssel wird während der Eingabe **live gegen Ji
 die Vorgangs-Zusammenfassung oder einen „nicht gefunden“-Hinweis) – nur beratend, es blockiert das
 Speichern nie.
 
+Sie müssen nicht den reinen Schlüssel eintippen: **fügen Sie ein, was Sie haben** – es wird beim
+Speichern auf den kanonischen Schlüssel normalisiert. Eine vollständige Ticket-URL
+(`https://ihr-jira/browse/PROJ-123?jql=…`), ein Board- oder Backlog-Link
+(`…?selectedIssue=PROJ-123`, `…?issueKey=OPS-7`) oder ein flüchtig getippter Schlüssel
+(Kleinschreibung, überflüssige Leerzeichen) werden alle zu `PROJ-123`. Text ohne erkennbaren
+Schlüssel bleibt unverändert, damit die Formatprüfung ihn weiterhin abfängt.
+
 ## Wann ein Worklog erstellt wird
 
 Ein Worklog wird erstellt/aktualisiert, sobald der Eintrag **sowohl** eine Endzeit als auch einen
