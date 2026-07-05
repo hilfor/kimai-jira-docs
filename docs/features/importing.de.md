@@ -1,27 +1,27 @@
-# Import von Jira-Worklogs (Jira â Kimai)
+# Import von Jira-Worklogs (Jira → Kimai)
 
-Die Gegenrichtung: Entwickler, die ihre Zeit in Jira buchen, kÃ¶nnen diese Worklogs als ZeiteintrÃ¤ge
-nach Kimai flieÃen lassen, statt sie doppelt zu erfassen.
+Die Gegenrichtung: Entwickler, die ihre Zeit in Jira buchen, können diese Worklogs als Zeiteinträge
+nach Kimai fließen lassen, statt sie doppelt zu erfassen.
 
-## IdentitÃ¤tsmodell â nur eigene Worklogs
+## Identitätsmodell – nur eigene Worklogs
 
-Der Importer verwendet das **eigene** gespeicherte, verschlÃ¼sselte Token jedes Benutzers als seine
-IdentitÃ¤t (JQL `worklogAuthor = currentUser()`). Kein Admin-/Dienst-Token, kein E-Mail-Abgleich â
+Der Importer verwendet das **eigene** gespeicherte, verschlüsselte Token jedes Benutzers als seine
+Identität (JQL `worklogAuthor = currentUser()`). Kein Admin-/Dienst-Token, kein E-Mail-Abgleich –
 ein Benutzer importiert nur Worklogs, die er selbst verfasst hat.
 
 ![System → Einstellungen → Jira: Server, Auth, Import, automatisches Anlegen und Benutzerfelder.](../img/system-settings-jira.png)
 
 ## Aktivieren + Ziel
 
-Der Import ist **standardmÃ¤Ãig aus** (er legt Daten an). Unter System â Einstellungen â Jira:
+Der Import ist **standardmäßig aus** (er legt Daten an). Unter System → Einstellungen → Jira:
 
 - `jira.import_enabled` = an
 - `jira.import_project` / `jira.import_activity` = das **Standard**-Ziel (siehe
   [projektbezogenes Routing](project-routing.md) und [automatisches Anlegen](auto-create.md), um
   verschiedene Jira-Projekte an verschiedene Kimai-Projekte zu senden)
-- `jira.import_window_days` = wie weit zurÃ¼ck gesucht wird (Standard 14)
+- `jira.import_window_days` = wie weit zurück gesucht wird (Standard 14)
 
-Aus einem eigenen Cron-Eintrag ausfÃ¼hren, getrennt vom Abgleich:
+Aus einem eigenen Cron-Eintrag ausführen, getrennt vom Abgleich:
 
 ```bash
 0 * * * * cd /path/to/kimai && bin/console kimai:jira:import >> var/log/jira-cron.log 2>&1
@@ -29,23 +29,23 @@ Aus einem eigenen Cron-Eintrag ausfÃ¼hren, getrennt vom Abgleich:
 
 ## Verhalten
 
-- Findet die im Zeitfenster gebuchten VorgÃ¤nge jedes Benutzers, importiert dessen eigene Worklogs
-  und speichert am Zeiteintrag den Jira-SchlÃ¼ssel, die Worklog-ID und `jira_sync_status=synced`.
-- **Dedupliziert** anhand bereits gespeicherter Worklog-IDs â erneute LÃ¤ufe erzeugen nie
-  Duplikate, und es wird nie ein Worklog erneut importiert, das die eigene AuswÃ¤rts-Sync von Kimai
+- Findet die im Zeitfenster gebuchten Vorgänge jedes Benutzers, importiert dessen eigene Worklogs
+  und speichert am Zeiteintrag den Jira-Schlüssel, die Worklog-ID und `jira_sync_status=synced`.
+- **Dedupliziert** anhand bereits gespeicherter Worklog-IDs – erneute Läufe erzeugen nie
+  Duplikate, und es wird nie ein Worklog erneut importiert, das die eigene Auswärts-Sync von Kimai
   erzeugt hat.
-- **Zeitzonen-korrekt** â der Jira-Zeitpunkt `started` wird exakt in die Zeitzone des Benutzers
-  Ã¼berfÃ¼hrt.
-- **Routet** anhand des Jira-SchlÃ¼ssels, legt optional Projekte **automatisch an** und Ã¼bernimmt
+- **Zeitzonen-korrekt** – der Jira-Zeitpunkt `started` wird exakt in die Zeitzone des Benutzers
+  überführt.
+- **Routet** anhand des Jira-Schlüssels, legt optional Projekte **automatisch an** und übernimmt
   zugeordnete [Benutzerfelder](custom-fields.md).
-- `--dry-run` meldet ohne zu schreiben; `--user=ID` beschrÃ¤nkt auf einen Benutzer; `--days=N`
-  Ã¼berschreibt das Zeitfenster.
+- `--dry-run` meldet ohne zu schreiben; `--user=ID` beschränkt auf einen Benutzer; `--days=N`
+  überschreibt das Zeitfenster.
 
-## Bekannte EinschrÃ¤nkung (MVP)
+## Bekannte Einschränkung (MVP)
 
-Importierte EintrÃ¤ge werden direkt gespeichert (um eine Sync-RÃ¼ckkopplungsschleife zu vermeiden),
-was Kimais Satz-Berechnung umgeht â sie starten daher mit **Null-/StandardsÃ¤tzen**. Bearbeiten Sie
-einen Eintrag oder lassen Sie Ihre Ã¼blichen Satzregeln beim nÃ¤chsten Speichern greifen.
+Importierte Einträge werden direkt gespeichert (um eine Sync-Rückkopplungsschleife zu vermeiden),
+was Kimais Satz-Berechnung umgeht – sie starten daher mit **Null-/Standardsätzen**. Bearbeiten Sie
+einen Eintrag oder lassen Sie Ihre üblichen Satzregeln beim nächsten Speichern greifen.
 
-Siehe auch: [Projektbezogenes Routing](project-routing.md) Â· [Automatisches Anlegen](auto-create.md)
-Â· [Benutzerfelder](custom-fields.md).
+Siehe auch: [Projektbezogenes Routing](project-routing.md) · [Automatisches Anlegen](auto-create.md)
+· [Benutzerfelder](custom-fields.md).
