@@ -17,6 +17,8 @@ bin/console cache:clear
 - **Kimai** ≥ 2.21.0
 - **PHP** ≥ 8.2
 - **ext-sodium** — for the encrypted token vault (Kimai's documented PHP setup normally has it).
+- **ext-xsl** — required by Kimai core itself, and needed to render any email; without it the
+  notification mails silently fail to send.
 - A working `MAILER_DSN` and a cron entry — see [Configure](configure.md) — for the notification
   emails and the background reconciler/importer.
 
@@ -49,5 +51,14 @@ applies any new migrations) and clear the cache:
 bin/console kimai:bundle:jira:install
 bin/console cache:clear
 ```
+
+The plugin's migrations only ever touch its **own** `kimai2_jira_token` table — they never alter
+Kimai's core tables — so re-running the installer on an existing install is safe.
+
+!!! warning "Don't rotate `APP_SECRET` without a dedicated token key"
+    Stored Jira tokens are encrypted with a key derived from Kimai's `APP_SECRET` by default. If
+    `APP_SECRET` changes, **every stored token becomes undecryptable** and each user must re-enter
+    theirs. If your deployment rotates `APP_SECRET`, set a dedicated `JIRA_TOKEN_KEY` environment
+    variable first — the vault then derives its key from that, so the two can rotate independently.
 
 Next: [Configure](configure.md).

@@ -18,6 +18,8 @@ bin/console cache:clear
 - **PHP** ≥ 8.2
 - **ext-sodium** – für den verschlüsselten Token-Speicher (Kimais dokumentierte PHP-Einrichtung
   hat es normalerweise bereits).
+- **ext-xsl** – wird von Kimai selbst benötigt und ist zum Rendern jeglicher E-Mail erforderlich;
+  ohne die Erweiterung schlägt der Versand der Benachrichtigungs-E-Mails still fehl.
 - Ein funktionierendes `MAILER_DSN` und ein Cron-Eintrag – siehe [Einrichtung](configure.md) – für
   die Benachrichtigungs-E-Mails und den Hintergrund-Abgleich/Importer.
 
@@ -51,5 +53,16 @@ Installer erneut aus (er wendet neue Migrationen an) und leeren Sie den Cache:
 bin/console kimai:bundle:jira:install
 bin/console cache:clear
 ```
+
+Die Migrationen des Plugins betreffen ausschließlich seine **eigene** Tabelle
+`kimai2_jira_token` – Kimais Kern-Tabellen werden nie verändert –, daher ist ein erneutes Ausführen
+des Installers auf einer bestehenden Installation unbedenklich.
+
+!!! warning "`APP_SECRET` nicht ohne dedizierten Token-Schlüssel rotieren"
+    Gespeicherte Jira-Token werden standardmäßig mit einem aus Kimais `APP_SECRET` abgeleiteten
+    Schlüssel verschlüsselt. Ändert sich `APP_SECRET`, wird **jedes gespeicherte Token
+    unentschlüsselbar** und jede Person muss ihr Token neu eingeben. Wenn Ihre Umgebung
+    `APP_SECRET` rotiert, setzen Sie zuvor eine dedizierte Umgebungsvariable `JIRA_TOKEN_KEY` – der
+    Vault leitet seinen Schlüssel dann daraus ab, sodass beide unabhängig rotieren können.
 
 Weiter: [Einrichtung](configure.md).

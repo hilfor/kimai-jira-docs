@@ -38,7 +38,7 @@ synchronisiert werden konnte.
 
 ## Einrichtung
 
-Siehe die Haupt-[Startseite](../index.md) für die Instanz-Einstellungen (Server-URL, Auth-Modus,
+Siehe die [Startseite](../index.md) für die Instanz-Einstellungen (Server-URL, Auth-Modus,
 Sync-Modus), die benutzereigene Token-Seite und den Cron-Eintrag für `kimai:jira:sync`.
 
 Siehe auch: [Import](importing.md) · [Benachrichtigungen](notifications.md) ·

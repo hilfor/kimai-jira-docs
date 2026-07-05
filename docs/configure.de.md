@@ -22,7 +22,11 @@ zurückgezeigt.*
   ([id.atlassian.com](https://id.atlassian.com/manage-profile/security/api-tokens)) und trägt
   seine Jira-Konto-E-Mail in den Kimai-Einstellungen ein (Abschnitt „Jira“).
 
-Verwenden Sie **HTTPS** für die Server-URL – die Einstellungsseite warnt, falls nicht.
+Die Server-URL ist eine Sicherheitsgrenze – das Token jeder Person wird an den dort angegebenen
+Host gesendet – und wird daher **beim Speichern validiert**: Sie muss `https://` verwenden (Token
+werden nie im Klartext übertragen) und darf nicht auf eine private, Loopback- oder
+Link-local-Adresse zeigen. Eine Änderung lässt beim nächsten täglichen Heartbeat jedes gespeicherte
+Token neu validieren, da ein gegen den alten Host geprüftes Token nichts über einen neuen aussagt.
 
 ## Cron
 

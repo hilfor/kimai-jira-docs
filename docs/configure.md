@@ -20,7 +20,11 @@ connection / Delete token buttons.](img/settings-page.png)
   ([id.atlassian.com](https://id.atlassian.com/manage-profile/security/api-tokens)) and sets their
   Jira account email under Kimai preferences (section "Jira").
 
-Use **HTTPS** for the server URL — the settings page warns if it isn't.
+The server URL is a security boundary — every user's token is sent to whatever host it names — so
+it is **validated when you save it**: it must use `https://` (tokens are never sent in clear text)
+and must not point at a private, loopback, or link-local address. Changing it re-validates every
+stored token on the next daily heartbeat, since a token proven against the old host says nothing
+about a new one.
 
 ## Cron
 
