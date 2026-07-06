@@ -1,0 +1,31 @@
+version: 2
+
+# Automated dependency-update PRs (GitHub-native, no third-party app). Mirrors the setup in the
+# kimai-jira plugin repo. Covers the docs toolchain (pip: mkdocs-material, mkdocs-static-i18n)
+# and the GitHub Actions used by the Pages build. Grouped so each ecosystem opens one combined PR.
+updates:
+    -   package-ecosystem: 'pip'
+        directory: '/'
+        schedule:
+            interval: 'weekly'
+            day: 'monday'
+        open-pull-requests-limit: 5
+        labels:
+            - 'dependencies'
+        groups:
+            pip-dependencies:
+                patterns:
+                    - '*'
+    -   package-ecosystem: 'github-actions'
+        directory: '/'
+        schedule:
+            interval: 'weekly'
+            day: 'monday'
+        open-pull-requests-limit: 5
+        labels:
+            - 'dependencies'
+            - 'github-actions'
+        groups:
+            github-actions:
+                patterns:
+                    - '*'
