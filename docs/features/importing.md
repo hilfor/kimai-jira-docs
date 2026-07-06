@@ -5,21 +5,24 @@ timesheets, instead of double-entering.
 
 ## Identity model — own worklogs only
 
-The importer uses each user's **own** stored, encrypted token as their identity
+The importer runs per **(customer, user)** token: for each customer that has import enabled, it
+uses each user's **own** stored, encrypted token for that customer as their identity
 (JQL `worklogAuthor = currentUser()`). No admin/service token, no email-matching — a user only
-ever imports worklogs they authored themselves.
+ever imports worklogs they authored themselves, from that customer's Jira.
 
-![System → Settings → Jira: server, auth, import, auto-create, and custom-field settings.](../img/system-settings-jira.png)
+![A customer's Jira settings: server, auth, import, auto-create, and custom-field
+fields.](../img/system-settings-jira.png)
 
 ## Enable + target
 
-Import is **off by default** (it creates data). Under System → Settings → Jira:
+Import is **off by default** (it creates data). It is enabled **per customer**, on the customer's
+edit form (Customers → edit a customer → Jira):
 
-- `jira.import_enabled` = on
-- `jira.import_project` / `jira.import_activity` = the **default** target (see
+- `jira_import_enabled` = on
+- `jira_import_project` / `jira_import_activity` = the **default** target for this customer (see
   [per-project routing](project-routing.md) and [auto-create](auto-create.md) for sending
   different Jira projects to different Kimai projects)
-- `jira.import_window_days` = how far back to look (default 14)
+- `jira_import_window_days` = how far back to look (default 14)
 
 Run it from its own cron entry, separate from the reconciler:
 

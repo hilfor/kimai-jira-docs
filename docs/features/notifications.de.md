@@ -8,15 +8,16 @@ bringen (ein defekter Mail-Transport wird protokolliert und verschluckt).
 
 ## Token-/Sync-Probleme
 
-- **In-App-Banner** – solange Ihr Token ungültig ist, zeigt der nächste Seitenaufruf einmal pro
-  Sitzung eine Warnung (sie erscheint in der nächsten Sitzung erneut, nervt aber nicht auf jeder
+- **In-App-Banner** – solange eines Ihrer Token ungültig ist, zeigt der nächste Seitenaufruf einmal
+  pro Sitzung eine Warnung (sie erscheint in der nächsten Sitzung erneut, nervt aber nicht auf jeder
   Seite).
 - **Eskalations-E-Mail mit Backoff** – wird ein Token von gültig → ungültig, geht sofort eine
-  E-Mail heraus, nach 7 Tagen erneut, danach monatlich, solange es ungelöst ist. Derselbe Zeitplan
-  greift für einen Benutzer, dessen ältester nicht synchronisierter Eintrag mehr als 7 Tage alt
-  ist – auch bei gültigem Token.
-- **Dashboard-Widget** – eine „Jira-Sync“-Karte mit Token-Status, Anzahl nicht synchronisierter
-  Einträge und dem Alter des ältesten.
+  E-Mail heraus, nach 7 Tagen erneut, danach monatlich, solange es ungelöst ist. Sie **verlinkt
+  direkt auf die kundenbezogene Token-Seite** (`/jira/settings/{user}/{customer}`) für genau den
+  Kunden, dessen Token defekt ist. Derselbe Zeitplan greift für einen Benutzer, dessen ältester
+  nicht synchronisierter Eintrag mehr als 7 Tage alt ist – auch bei gültigem Token.
+- **Dashboard-Widget** – eine „Jira-Sync“-Karte mit einer **kundenbezogenen Statusaufschlüsselung**
+  (Token-Status je Kunde), der Anzahl nicht synchronisierter Einträge und dem Alter des ältesten.
 - **Wöchentliche Admin-Zusammenfassung** – `bin/console kimai:jira:sync --digest` schickt jedem
   Super-Admin eine einzeilige Zusammenfassung. Aus einem eigenen wöchentlichen Cron-Eintrag
   ausführen.
@@ -29,8 +30,8 @@ Wenn der Importer ein [Benutzerfeld überspringt](custom-fields.md), das er nich
 konnte, gilt dasselbe Prinzip – die Auslassung wird **gesehen, nicht durchsucht**:
 
 - eine Zeile im **Dashboard-Widget** („N Jira-Felder konnten nicht importiert werden“),
-- ein **Admin-Banner** (einmal pro Sitzung, für Benutzer, die die Systemeinstellungen öffnen
-  können), mit Verweis auf System → Einstellungen → Jira,
+- ein **Admin-Banner** (einmal pro Sitzung, für Benutzer, die Kunden bearbeiten können), mit
+  Verweis auf die Jira-Einstellungen des betroffenen Kunden,
 - eine Zeile in der **wöchentlichen Zusammenfassung**,
 - und die Ausgabe des Befehls `kimai:jira:import`.
 

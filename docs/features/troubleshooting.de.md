@@ -5,9 +5,15 @@ Support-Anfragen beginnen mit dem plugin-eigenen Log: `var/log/jira-<env>-<date>
 
 ## Es wird nichts nach Jira synchronisiert
 
-- **Kein Token / Token ungültig** – prüfen Sie die benutzereigene Jira-Einstellungsseite (Status
-  `valid` / `invalid`) und das Dashboard-Widget. Ein `401` pausiert die Jira-Aufrufe dieses
-  Benutzers, bis das Token aktualisiert ist.
+- **Kein Token / Token für diesen Kunden ungültig** – öffnen Sie die kundenbezogene
+  Token-Übersicht (**Jira-Einstellungen** → Zeile des Kunden, bzw. `/jira/settings/{user}`) und
+  prüfen Sie den Status dieses Kunden (`valid` / `invalid`) sowie die kundenbezogene Aufschlüsselung
+  im Dashboard-Widget. Ein `401` pausiert die Jira-Aufrufe dieses Benutzers für diesen Kunden, bis
+  das Token aktualisiert ist.
+- **Das Projekt hat keinen Kunden, oder der Kunde hat keine Jira konfiguriert** – die
+  Synchronisierung richtet sich nach dem Kunden des Zeiteintrags (Zeiteintrag → Projekt → Kunde).
+  Ein Eintrag, dessen Projekt keinen Kunden hat oder dessen Kunde keine `jira_server_url` gesetzt
+  hat, wird nie synchronisiert.
 - **Eintrag ohne Endzeit oder ohne Vorgangsschlüssel** – ein Worklog wird erst erstellt, wenn
   beides vorhanden ist.
 - **`sync_mode = manual`** – nichts wird inline synchronisiert; führen Sie
@@ -18,10 +24,10 @@ Support-Anfragen beginnen mit dem plugin-eigenen Log: `var/log/jira-<env>-<date>
 
 ## Der Importer legt nichts an
 
-- `jira.import_enabled` ist aus, oder es ist kein Ziel auflösbar – ohne projektbezogenes
+- Kein Kunde hat `jira_import_enabled` an, oder es ist kein Ziel auflösbar – ohne projektbezogenes
   [Routing](project-routing.md), ohne [automatisches Anlegen](auto-create.md) und mit
-  ungesetztem/gelöschtem Standardprojekt oder -tätigkeit meldet der Lauf „nicht konfiguriert“ und
-  beendet sich.
+  ungesetztem/gelöschtem Standardprojekt oder -tätigkeit **an diesem Kunden** meldet der Lauf „nicht
+  konfiguriert“ und beendet sich.
 - Führen Sie `bin/console kimai:jira:import --dry-run` aus, um pro Benutzer und pro Vorgang zu
   sehen, was er *tun würde*.
 
@@ -30,8 +36,8 @@ Support-Anfragen beginnen mit dem plugin-eigenen Log: `var/log/jira-<env>-<date>
 - Prüfen Sie, welches Projekt diesen Jira-Schlüssel [beansprucht](project-routing.md) (sein Feld
   `Jira-Projektschlüssel`). Eine **doppelte Beanspruchung** (zwei Projekte, gleicher Schlüssel)
   wird zur niedrigeren Projekt-ID aufgelöst und protokolliert – beheben Sie das Duplikat.
-- Ein nicht beanspruchter Schlüssel verwendet den globalen Standard (oder legt automatisch an,
-  falls aktiviert).
+- Ein nicht beanspruchter Schlüssel verwendet das Standard-Importziel des Kunden (oder legt
+  automatisch unter diesem Kunden an, falls aktiviert).
 
 ## Ein Benutzerfeld wird nicht importiert
 

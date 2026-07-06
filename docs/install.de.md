@@ -58,6 +58,14 @@ Die Migrationen des Plugins betreffen ausschließlich seine **eigene** Tabelle
 `kimai2_jira_token` – Kimais Kern-Tabellen werden nie verändert –, daher ist ein erneutes Ausführen
 des Installers auf einer bestehenden Installation unbedenklich.
 
+!!! warning "Das Upgrade von einer Release mit globaler Konfiguration ist ein harter Umstieg"
+    Diese Release verschiebt die Jira-Konfiguration von der bisherigen Seite **System →
+    Einstellungen → Jira** auf jeden **Kunden** und macht aus dem einzelnen benutzereigenen Token
+    ein Token **pro Kunde**. Beim Upgrade werden bestehende Token verworfen und die alten globalen
+    `jira.*`-Einstellungen entfernt. Nach dem Aktualisieren müssen Sie **Jira an jedem Kunden neu
+    konfigurieren** (Server-URL, Auth-Modus, Import-Optionen – siehe [Einrichtung](configure.md))
+    und jeder Benutzer muss **ein Token pro Kunde neu eingeben**.
+
 !!! warning "`APP_SECRET` nicht ohne dedizierten Token-Schlüssel rotieren"
     Gespeicherte Jira-Token werden standardmäßig mit einem aus Kimais `APP_SECRET` abgeleiteten
     Schlüssel verschlüsselt. Ändert sich `APP_SECRET`, wird **jedes gespeicherte Token

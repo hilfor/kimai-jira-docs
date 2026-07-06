@@ -6,8 +6,8 @@ eingetippt zu werden.
 
 ## Zuordnung konfigurieren
 
-Unter **System → Einstellungen → Jira** die Option `jira.import_fields` setzen – eine Zuordnung pro
-Zeile:
+Auf dem **Kunden-Bearbeitungsformular** (Kunden → Kunde bearbeiten → Jira) die Option
+`jira_import_fields` für diesen Kunden setzen – eine Zuordnung pro Zeile:
 
 ```text
 customfield_10012 = cost_centre

@@ -5,7 +5,8 @@ timesheets, so a value that already lives in Jira lands in Kimai instead of bein
 
 ## Configuring the mapping
 
-Under **System → Settings → Jira**, set `jira.import_fields` — one mapping per line:
+On the **customer's edit form** (Customers → edit a customer → Jira), set `jira_import_fields` for
+that customer — one mapping per line:
 
 ```text
 customfield_10012 = cost_centre
