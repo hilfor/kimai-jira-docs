@@ -6,6 +6,7 @@ das `var/plugins/`-Verzeichnis Ihrer Kimai-Installation und führen Sie den Inst
 ```bash
 cd /path/to/kimai
 unzip JiraBundle-vX.Y.Z.zip -d var/plugins/   # entpackt nach var/plugins/JiraBundle/
+bin/console cache:clear
 bin/console kimai:bundle:jira:install         # legt die plugin-eigene Tabelle an
 bin/console cache:clear
 ```

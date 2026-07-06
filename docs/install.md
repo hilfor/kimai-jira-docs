@@ -6,6 +6,7 @@ directory and run the installer:
 ```bash
 cd /path/to/kimai
 unzip JiraBundle-vX.Y.Z.zip -d var/plugins/   # extracts to var/plugins/JiraBundle/
+bin/console cache:clear
 bin/console kimai:bundle:jira:install         # creates the plugin's own table
 bin/console cache:clear
 ```
