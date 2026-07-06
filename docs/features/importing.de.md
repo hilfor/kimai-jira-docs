@@ -5,21 +5,25 @@ nach Kimai fließen lassen, statt sie doppelt zu erfassen.
 
 ## Identitätsmodell – nur eigene Worklogs
 
-Der Importer verwendet das **eigene** gespeicherte, verschlüsselte Token jedes Benutzers als seine
-Identität (JQL `worklogAuthor = currentUser()`). Kein Admin-/Dienst-Token, kein E-Mail-Abgleich –
-ein Benutzer importiert nur Worklogs, die er selbst verfasst hat.
+Der Importer läuft pro **(Kunde, Benutzer)**-Token: Für jeden Kunden mit aktiviertem Import
+verwendet er das **eigene** gespeicherte, verschlüsselte Token jedes Benutzers für diesen Kunden als
+seine Identität (JQL `worklogAuthor = currentUser()`). Kein Admin-/Dienst-Token, kein
+E-Mail-Abgleich – ein Benutzer importiert nur Worklogs, die er selbst in der Jira dieses Kunden
+verfasst hat.
 
-![System → Einstellungen → Jira: Server, Auth, Import, automatisches Anlegen und Benutzerfelder.](../img/system-settings-jira.png)
+![Die Jira-Einstellungen eines Kunden: Server, Auth, Import, automatisches Anlegen und
+Benutzerfelder.](../img/system-settings-jira.png)
 
 ## Aktivieren + Ziel
 
-Der Import ist **standardmäßig aus** (er legt Daten an). Unter System → Einstellungen → Jira:
+Der Import ist **standardmäßig aus** (er legt Daten an). Er wird **pro Kunde** aktiviert, auf dem
+Kunden-Bearbeitungsformular (Kunden → Kunde bearbeiten → Jira):
 
-- `jira.import_enabled` = an
-- `jira.import_project` / `jira.import_activity` = das **Standard**-Ziel (siehe
+- `jira_import_enabled` = an
+- `jira_import_project` / `jira_import_activity` = das **Standard**-Ziel für diesen Kunden (siehe
   [projektbezogenes Routing](project-routing.md) und [automatisches Anlegen](auto-create.md), um
   verschiedene Jira-Projekte an verschiedene Kimai-Projekte zu senden)
-- `jira.import_window_days` = wie weit zurück gesucht wird (Standard 14)
+- `jira_import_window_days` = wie weit zurück gesucht wird (Standard 14)
 
 Aus einem eigenen Cron-Eintrag ausführen, getrennt vom Abgleich:
 

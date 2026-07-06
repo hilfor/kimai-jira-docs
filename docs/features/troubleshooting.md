@@ -5,9 +5,13 @@ Support requests start with the plugin's own log: `var/log/jira-<env>-<date>.log
 
 ## Nothing syncs to Jira
 
-- **No token / token invalid** — check the per-user Jira settings page (status `valid` /
-  `invalid`) and the dashboard widget. A `401` pauses that user's Jira calls until the token is
-  updated.
+- **No token / token invalid for that customer** — open the per-customer token overview
+  (**Jira settings** → the customer's row, or `/jira/settings/{user}`) and check that customer's
+  status (`valid` / `invalid`), plus the dashboard widget's per-customer breakdown. A `401` pauses
+  that user's Jira calls for that customer until the token is updated.
+- **The project has no customer, or the customer has no Jira configured** — sync routes by the
+  timesheet's customer (timesheet → project → customer). An entry whose project has no customer, or
+  whose customer has no `jira_server_url` set, is never synced.
 - **Entry has no end time or no issue key** — a worklog is only created once both exist.
 - **`sync_mode = manual`** — nothing syncs inline; run `kimai:jira:sync --status=pending`.
 - **Jira unreachable** — entries stay `pending`; the reconciler drains them. Check the circuit
@@ -15,9 +19,9 @@ Support requests start with the plugin's own log: `var/log/jira-<env>-<date>.log
 
 ## The importer creates nothing
 
-- `jira.import_enabled` is off, or no target is resolvable — with no per-project
+- No customer has `jira_import_enabled` on, or no target is resolvable — with no per-project
   [routing](project-routing.md), no [auto-create](auto-create.md), and an unset/deleted default
-  project or activity, the run reports "not configured" and exits.
+  project or activity **on that customer**, the run reports "not configured" and exits.
 - Run `bin/console kimai:jira:import --dry-run` to see what it *would* do, per user and per issue.
 
 ## Imported time lands in the wrong project
@@ -25,7 +29,8 @@ Support requests start with the plugin's own log: `var/log/jira-<env>-<date>.log
 - Check which project [claims](project-routing.md) that Jira key (its `Jira project key(s)`
   field). A **duplicate claim** (two projects, same key) resolves to the lower project id and is
   logged — fix the duplicate.
-- An unclaimed key uses the global default (or auto-creates, if enabled).
+- An unclaimed key uses the customer's default import target (or auto-creates under that customer,
+  if enabled).
 
 ## A custom field isn't imported
 

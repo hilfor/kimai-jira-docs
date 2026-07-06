@@ -22,15 +22,17 @@ ticket.*
 - A dead token, a stalled sync, or a field it couldn't import is **hard to miss** — a session
   banner, escalation emails, a dashboard widget, and a weekly admin digest.
 
-Each user stores their own credential; tokens are **encrypted at rest** and never shared, logged,
-or returned by any API.
+Each user stores their own credential — one token **per customer** — and tokens are **encrypted at
+rest** and never shared, logged, or returned by any API.
 
 ## See it in action
 
-**One settings page** for the whole integration — sync behaviour, the opt-in import, auto-create,
-and the custom-field mapping:
+**Configured per customer** — each customer's edit form carries its own Jira connection, sync
+behaviour, opt-in import, auto-create, and custom-field mapping, so different clients can point at
+different Jira instances:
 
-![System → Settings → Jira showing sync, import, auto-create, and custom-field settings.](img/system-settings-jira.png)
+![A customer's Jira settings showing connection, sync, import, auto-create, and custom-field
+fields.](img/system-settings-jira.png)
 
 **Imports route themselves by Jira project.** Each Kimai project claims the Jira key(s) it owns on
 its own edit form, so `PROJ-123` and `OPS-9` land under different projects
@@ -48,6 +50,7 @@ a surprise at invoicing time ([custom fields](features/custom-fields.md)):
 
 - **[Install](install.md)** — drop the ZIP into `var/plugins/`, run the installer (with a
   requirements check for your DevOps).
-- **[Configure](configure.md)** — server URL, per-user tokens, and the cron entries.
+- **[Configure](configure.md)** — per-customer server URL, per-customer tokens, and the cron
+  entries.
 - **[Guides](features/worklog-sync.md)** — a page per capability: worklog sync, importing,
   routing, auto-create, custom fields, notifications, and troubleshooting.

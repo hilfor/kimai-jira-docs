@@ -55,6 +55,13 @@ bin/console cache:clear
 The plugin's migrations only ever touch its **own** `kimai2_jira_token` table — they never alter
 Kimai's core tables — so re-running the installer on an existing install is safe.
 
+!!! warning "Upgrading from a global-config release is a hard cutover"
+    This release moves Jira configuration from the old **System → Settings → Jira** page onto each
+    **customer**, and turns the single per-user token into one token **per customer**. On upgrade,
+    existing tokens are dropped and the old global `jira.*` settings are removed. After updating you
+    must **re-configure Jira on each customer** (server URL, auth mode, import options — see
+    [Configure](configure.md)) and every user must **re-enter one token per customer**.
+
 !!! warning "Don't rotate `APP_SECRET` without a dedicated token key"
     Stored Jira tokens are encrypted with a key derived from Kimai's `APP_SECRET` by default. If
     `APP_SECRET` changes, **every stored token becomes undecryptable** and each user must re-enter

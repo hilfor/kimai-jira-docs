@@ -22,10 +22,14 @@ Schlüssel bleibt unverändert, damit die Formatprüfung ihn weiterhin abfängt.
 ## Wann ein Worklog erstellt wird
 
 Ein Worklog wird erstellt/aktualisiert, sobald der Eintrag **sowohl** eine Endzeit als auch einen
-Vorgangsschlüssel hat **und** der Benutzer ein Token besitzt. Ein laufender Timer wird nie
-zwischendurch synchronisiert. Ändert man den Schlüssel, nachdem ein Worklog existiert, wird das
-alte gelöscht und ein neues unter dem neuen Schlüssel angelegt. Der Worklog-Kommentar ist die
-Beschreibung des Zeiteintrags (per `jira.sync_comment` umschaltbar).
+Vorgangsschlüssel hat **und** der Benutzer ein Token für den Kunden des Eintrags besitzt. Die
+Synchronisierung richtet sich nach dem **Kunden** des Zeiteintrags (Zeiteintrag → Projekt → Kunde):
+Der Eintrag wird zur Jira dieses Kunden synchronisiert, mit dem Token des Benutzers für diesen
+Kunden. Ein Zeiteintrag, dessen Projekt **keinen Kunden** hat, wird nicht synchronisiert. Ein
+laufender Timer wird nie zwischendurch synchronisiert. Ändert man den Schlüssel, nachdem ein Worklog
+existiert, wird das alte gelöscht und ein neues unter dem neuen Schlüssel angelegt. Der
+Worklog-Kommentar ist die Beschreibung des Zeiteintrags (per `jira_sync_comment` des Kunden
+umschaltbar).
 
 ## Kimai ist die maßgebliche Quelle
 
@@ -38,8 +42,8 @@ synchronisiert werden konnte.
 
 ## Einrichtung
 
-Siehe die [Startseite](../index.md) für die Instanz-Einstellungen (Server-URL, Auth-Modus,
-Sync-Modus), die benutzereigene Token-Seite und den Cron-Eintrag für `kimai:jira:sync`.
+Siehe [Einrichtung](../configure.md) für die kundenbezogenen Einstellungen (Server-URL, Auth-Modus,
+Sync-Modus), die Token-Seite je (Kunde, Benutzer) und den Cron-Eintrag für `kimai:jira:sync`.
 
 Siehe auch: [Import](importing.md) · [Benachrichtigungen](notifications.md) ·
 [Fehlerbehebung](troubleshooting.md).

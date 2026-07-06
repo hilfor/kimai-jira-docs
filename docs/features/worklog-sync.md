@@ -20,9 +20,12 @@ validation still catches it.
 ## When a worklog is created
 
 A worklog is created/updated once the entry has **both** an end time and an issue key **and** the
-owning user has a token. A running timer is never synced mid-flight. Editing the key after a
-worklog exists deletes the old worklog and creates a new one under the new key. The worklog
-comment is the timesheet description (toggle with `jira.sync_comment`).
+owning user has a token for the entry's customer. Sync routes by the timesheet's **customer**
+(timesheet → project → customer): the entry syncs to that customer's Jira using the user's token for
+that customer. A timesheet whose project has **no customer** is not synced. A running timer is never
+synced mid-flight. Editing the key after a worklog exists deletes the old worklog and creates a new
+one under the new key. The worklog comment is the timesheet description (toggle with the customer's
+`jira_sync_comment`).
 
 ## Kimai is the source of truth
 
@@ -34,8 +37,8 @@ anything that could not sync inline.
 
 ## Setup
 
-See the [overview](../index.md) for the instance settings (server URL, auth mode, sync
-mode), the per-user token page, and the cron entry for `kimai:jira:sync`.
+See [Configure](../configure.md) for the per-customer settings (server URL, auth mode, sync mode),
+the per-(customer, user) token page, and the cron entry for `kimai:jira:sync`.
 
 See also: [importing](importing.md) · [notifications](notifications.md) ·
 [troubleshooting](troubleshooting.md).

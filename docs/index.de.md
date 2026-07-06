@@ -26,15 +26,17 @@ anklickbarem Link zum Ticket.*
   **nicht unbemerkt** – ein Sitzungsbanner, Eskalations-E-Mails, ein Dashboard-Widget und eine
   wöchentliche Admin-Zusammenfassung.
 
-Jeder Benutzer speichert seine eigenen Zugangsdaten; Token werden **verschlüsselt gespeichert** und
-niemals geteilt, protokolliert oder von einer API zurückgegeben.
+Jeder Benutzer speichert seine eigenen Zugangsdaten – ein Token **pro Kunde** – und Token werden
+**verschlüsselt gespeichert** und niemals geteilt, protokolliert oder von einer API zurückgegeben.
 
 ## In Aktion
 
-**Eine Einstellungsseite** für die gesamte Integration – Sync-Verhalten, der aktivierbare Import,
-automatisches Anlegen und die Benutzerfeld-Zuordnung:
+**Pro Kunde konfiguriert** – jedes Kunden-Bearbeitungsformular trägt seine eigene Jira-Verbindung,
+sein Sync-Verhalten, den aktivierbaren Import, das automatische Anlegen und die Benutzerfeld-
+Zuordnung, sodass verschiedene Klienten auf verschiedene Jira-Instanzen zeigen können:
 
-![System → Einstellungen → Jira mit Sync-, Import-, Auto-Anlege- und Benutzerfeld-Einstellungen.](img/system-settings-jira.png)
+![Die Jira-Einstellungen eines Kunden mit Verbindungs-, Sync-, Import-, Auto-Anlege- und
+Benutzerfeldern.](img/system-settings-jira.png)
 
 **Importe routen sich selbst nach Jira-Projekt.** Jedes Kimai-Projekt beansprucht auf seinem
 Bearbeitungsformular die Jira-Schlüssel, die zu ihm gehören, sodass `PROJ-123` und `OPS-9` unter
@@ -54,6 +56,7 @@ wöchentlichen Zusammenfassung –, sodass eine fehlende Kostenstelle bei der Re
 
 - **[Installation](install.md)** – das ZIP nach `var/plugins/` entpacken, den Installer ausführen
   (inkl. Voraussetzungs-Check für Ihr DevOps-Team).
-- **[Einrichtung](configure.md)** – Server-URL, benutzereigene Token und die Cron-Einträge.
+- **[Einrichtung](configure.md)** – kundenbezogene Server-URL, kundenbezogene Token und die
+  Cron-Einträge.
 - **[Anleitungen](features/worklog-sync.md)** – eine Seite pro Funktion: Worklog-Sync, Import,
   Routing, automatisches Anlegen, Benutzerfelder, Benachrichtigungen und Fehlerbehebung.
