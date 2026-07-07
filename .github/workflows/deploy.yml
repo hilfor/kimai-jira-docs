@@ -22,7 +22,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       # Fail if any English content page has no German (*.de.md) sibling. Catches "added an EN
       # page, forgot the DE one" - the one drift a build can detect (content-level translation
       # freshness is still a human review).
@@ -42,13 +42,13 @@ jobs:
             exit 1
           fi
           echo "All pages have a German translation."
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.x'
           cache: pip
       - run: pip install -r requirements.txt
       - run: mkdocs build --strict
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: site
 
@@ -60,4 +60,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
