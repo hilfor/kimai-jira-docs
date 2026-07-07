@@ -6,6 +6,9 @@ name: Deploy docs to GitHub Pages
 on:
   push:
     branches: [main]
+  # Build (but don't deploy) on PRs so the site is validated before merge — this is
+  # the status check that gates Dependabot auto-merge.
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -44,7 +47,9 @@ jobs:
           echo "All pages have a German translation."
       - uses: actions/setup-python@v6
         with:
-          python-version: '3.x'
+          # Pinned to a specific minor (no floating '3.x'); Dependabot's github-actions +
+          # pip updates keep the toolchain and requirements current.
+          python-version: '3.13'
           cache: pip
       - run: pip install -r requirements.txt
       - run: mkdocs build --strict
@@ -54,6 +59,8 @@ jobs:
 
   deploy:
     needs: build
+    # Deploy only on push to main / manual runs — never from a PR build.
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
