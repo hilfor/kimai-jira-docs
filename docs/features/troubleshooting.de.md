@@ -3,6 +3,33 @@
 Support-Anfragen beginnen mit dem plugin-eigenen Log: `var/log/jira-<env>-<date>.log` (ein eigener
 `jira`-Monolog-Kanal; das Token wird nie protokolliert).
 
+## Jira-Funktionen funktionieren nicht mehr
+
+Sync, Import und Vorgangssuche **setzen gemeinsam aus**, wenn die Lizenz inaktiv oder veraltet ist –
+während die Kimai-Zeiterfassung weiterläuft. Ist alles rund um Jira gleichzeitig verstummt,
+verdächtigen Sie zuerst die Lizenz.
+
+- **Lizenzstatus prüfen.** Achten Sie auf das Admin-Banner: einen Kulanz-Countdown („*sync keeps
+  working for N more day(s)*"), einen „inaktiv"-Hinweis oder „kein Lizenzschlüssel konfiguriert".
+  Bestätigen Sie dann den Schlüssel unter **System → Einstellungen → Jira** (oder die Umgebungsvariable
+  `JIRA_LICENSE_KEY`, die **Vorrang** vor dem Einstellungsfeld hat – prüfen Sie beide). Siehe
+  [Lizenz](../licensing.md).
+- **Den `kimai:jira:sync`-Cron prüfen.** Der tägliche Lizenz-Heartbeat läuft über diesen Cron und
+  ist das Einzige, das die Offline-Veraltungs-Uhr zurücksetzt. Ist er nicht eingeplant, degradiert
+  eine bezahlte, online betriebene Installation von selbst nach ~44 Tagen (30 Tage
+  Offline-Veraltung + 14 Tage Kulanz). Planen Sie ihn ein (siehe [Einrichtung → Cron](../configure.md))
+  oder setzen Sie `JIRA_LICENSE_OFFLINE_GRACE_DAYS=0` für eine bewusst air-gapped Installation.
+- **Das Log prüfen.** Im `jira`-Kanal (`var/log/jira-<env>-<date>.log`) protokolliert ein pausierter
+  Lauf `Reconciler skipped: Jira subscription inactive.` (Sync) bzw. `Import skipped: Jira
+  subscription inactive.` (Import). Beim manuellen Aufruf der Befehle erscheint `Jira subscription
+  inactive — … Enter a valid license key under Settings → Jira.` Ein Aussetzer des Lizenz-Endpunkts
+  protokolliert `Jira license status ping failed; failing open.` auf Info-Ebene und ist harmlos – er
+  deaktiviert eine funktionierende Instanz nie.
+
+Sobald ein gültiger Schlüssel aktiv ist, führen Sie `bin/console kimai:jira:sync` aus – der
+Heartbeat aktiviert die Funktionen wieder, und in der Warteschlange stehende Worklogs werden
+nachgetragen.
+
 ## Es wird nichts nach Jira synchronisiert
 
 - **Kein Token / Token für diesen Kunden ungültig** – öffnen Sie die kundenbezogene

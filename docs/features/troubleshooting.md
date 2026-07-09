@@ -3,6 +3,30 @@
 Support requests start with the plugin's own log: `var/log/jira-<env>-<date>.log` (a dedicated
 `jira` monolog channel; the token is never logged).
 
+## Jira features stopped working
+
+Sync, import, and issue lookup **all stop together** when the license is inactive or stale — while
+Kimai time tracking keeps working. If everything Jira went quiet at once, suspect the license before
+anything else.
+
+- **Check the license status.** Look for the admin banner: a grace-window countdown ("*sync keeps
+  working for N more day(s)*"), an "inactive" notice, or "no license key configured". Then confirm
+  the key under **System → Settings → Jira** (or the `JIRA_LICENSE_KEY` env var, which **wins** over
+  the settings field — check both). See [License](../licensing.md).
+- **Check the `kimai:jira:sync` cron.** The daily license heartbeat rides this cron and is the only
+  thing that resets the offline-staleness clock. If it is not scheduled, a paid, online install
+  degrades on its own after ~44 days (30 days offline-staleness + 14 days grace). Schedule it (see
+  [Configure → Cron](../configure.md)), or set `JIRA_LICENSE_OFFLINE_GRACE_DAYS=0` for a deliberately
+  air-gapped install.
+- **Check the log.** On the `jira` channel (`var/log/jira-<env>-<date>.log`), a paused run logs
+  `Reconciler skipped: Jira subscription inactive.` (sync) or `Import skipped: Jira subscription
+  inactive.` (import). Running the commands by hand prints `Jira subscription inactive — … Enter a
+  valid license key under Settings → Jira.` A license-endpoint hiccup logs `Jira license status ping
+  failed; failing open.` at info level and is harmless — it never disables a working instance.
+
+Once a valid key is active, run `bin/console kimai:jira:sync` — the heartbeat re-activates features
+and any queued worklogs drain.
+
 ## Nothing syncs to Jira
 
 - **No token / token invalid for that customer** — open the per-customer token overview

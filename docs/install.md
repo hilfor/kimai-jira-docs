@@ -13,6 +13,13 @@ bin/console cache:clear
 
 `kimai:plugins` should now list **JiraBundle**.
 
+## Enter your license key
+
+JiraBundle is a paid plugin — the Jira features stay off until a valid key is set. Paste the key you
+received on purchase under **System → Settings → Jira**, or set the `JIRA_LICENSE_KEY` environment
+variable (which takes precedence). See [License](licensing.md) for the details, the grace window,
+and the `kimai:jira:sync` heartbeat.
+
 ## Requirements
 
 - **Kimai** ≥ 2.21.0
@@ -53,8 +60,10 @@ bin/console kimai:bundle:jira:install
 bin/console cache:clear
 ```
 
-The plugin's migrations only ever touch its **own** `kimai2_jira_token` table — they never alter
-Kimai's core tables — so re-running the installer on an existing install is safe.
+The plugin's migrations create and manage its **own** `kimai2_jira_token` table and seed two of its
+own rows into Kimai's shared `kimai2_configuration` table — `jira.token_key` (the token-encryption
+key) and `jira.license_state` (the license-clock anchor). Both are seeded only when absent, so
+re-running the installer on an existing install is safe and never overwrites either value.
 
 !!! warning "Upgrading from a global-config release is a hard cutover"
     This release moves Jira configuration from the old **System → Settings → Jira** page onto each
@@ -63,10 +72,23 @@ Kimai's core tables — so re-running the installer on an existing install is sa
     must **re-configure Jira on each customer** (server URL, auth mode, import options — see
     [Configure](configure.md)) and every user must **re-enter one token per customer**.
 
-!!! warning "Don't rotate `APP_SECRET` without a dedicated token key"
-    Stored Jira tokens are encrypted with a key derived from Kimai's `APP_SECRET` by default. If
-    `APP_SECRET` changes, **every stored token becomes undecryptable** and each user must re-enter
-    theirs. If your deployment rotates `APP_SECRET`, set a dedicated `JIRA_TOKEN_KEY` environment
-    variable first — the vault then derives its key from that, so the two can rotate independently.
+!!! warning "The token-encryption key lives in the database — back it up as one unit"
+    Stored Jira tokens are encrypted with a key that is generated once at install and kept in your
+    Kimai database (the `jira.token_key` row in `kimai2_configuration`). Because the key travels with
+    the database, a normal database backup or migration carries it too — restore the database and the
+    stored tokens decrypt again. Rotating Kimai's `APP_SECRET` **no longer** affects stored tokens.
+    The one thing that orphans tokens is losing that database row: if you restore application files
+    onto an **empty** or different database, or wipe the row, every stored token becomes
+    undecryptable and each user must re-enter theirs.
+
+!!! note "Advanced: pinning the key with `JIRA_TOKEN_KEY`"
+    You normally never touch this. `JIRA_TOKEN_KEY` is an **override** — when set, the vault uses it
+    instead of the database-stored key, for deployments that would rather manage the key alongside
+    their other secrets. On an install that **already has stored tokens**, do not simply set a fresh
+    `JIRA_TOKEN_KEY`: those tokens were encrypted under the database key, and pinning a different key
+    orphans them all. To move to a pinned key safely, copy the existing value out of the
+    `jira.token_key` row and set `JIRA_TOKEN_KEY` to exactly that, then verify a user can still load
+    their saved token before removing the row. Setting `JIRA_TOKEN_KEY` from scratch is only for a
+    brand-new install with no tokens yet.
 
 Next: [Configure](configure.md).

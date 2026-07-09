@@ -36,6 +36,7 @@ theme:
 nav:
   - Home: index.md
   - Install: install.md
+  - License: licensing.md
   - Configure: configure.md
   - Uninstall: uninstall.md
   - Guides:
@@ -75,6 +76,7 @@ plugins:
           nav_translations:
             Home: Start
             Install: Installation
+            License: Lizenz
             Configure: Einrichtung
             Uninstall: Deinstallation
             Guides: Anleitungen

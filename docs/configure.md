@@ -65,6 +65,12 @@ as:
 For cron-sent emails to link back to your instance, set `framework.router.default_uri` in your
 Kimai config so links resolve to your real domain instead of `localhost`.
 
+!!! note "The `kimai:jira:sync` cron also carries the license heartbeat"
+    Sync and import only run with a valid license. Beyond draining worklogs, the `kimai:jira:sync`
+    cron carries the daily license heartbeat — the only thing that resets the offline-staleness
+    clock. Leave it unscheduled and a paid, online install degrades its Jira features after ~44 days.
+    See [License](licensing.md).
+
 ## Per-customer field reference
 
 Every Jira setting lives on the **customer edit form** (Customers → edit a customer → Jira). Each

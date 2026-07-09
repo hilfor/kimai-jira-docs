@@ -32,8 +32,15 @@ For each imported issue key, the importer picks the target in this order:
    import activity).
 2. **No project claims it** → [auto-create](auto-create.md) a project (if enabled), otherwise the
    customer's default `jira_import_project` / `jira_import_activity`.
-3. **Nothing resolvable** (unclaimed key, no default) → the issue is skipped and counted in the
-   run summary, never silently dropped.
+3. **A routing failure** — a target was found but can't be used. Two distinct cases, both reported
+   (logged and counted in the run summary), never silently dropped:
+    - A project **claims the key but has no import activity** (no per-project override and no
+      customer default activity). This is a failure of the *claimed* project, not a missing claim —
+      the gap is the activity, so add an import activity to fix it.
+    - An **unclaimed key with no default project** (nothing claims the key, auto-create is off, and
+      the customer has no `jira_import_project`). Note this is different from case 2: an unclaimed
+      key with a default configured simply falls through to that default — only a *missing* default
+      makes it a failure.
 
 **Backward compatible:** if no project claims any key, every worklog uses the customer's default —
 exactly the single-target behaviour from before this feature existed.
