@@ -37,8 +37,18 @@ Für jeden importierten Vorgangsschlüssel wählt der Importer das Ziel in diese
    oder die Importtätigkeit des Kunden).
 2. **Kein Projekt beansprucht ihn** → [automatisches Anlegen](auto-create.md) eines Projekts
    (falls aktiviert), sonst der Standard des Kunden `jira_import_project` / `jira_import_activity`.
-3. **Nichts auflösbar** (nicht beanspruchter Schlüssel, kein Standard) → der Vorgang wird
-   übersprungen und in der Lauf-Zusammenfassung gezählt, niemals stillschweigend verworfen.
+3. **Ein Routing-Fehler** – ein Ziel wurde gefunden, ist aber nicht verwendbar. Zwei
+   unterschiedliche Fälle, beide werden gemeldet (protokolliert und in der Lauf-Zusammenfassung
+   gezählt), niemals stillschweigend verworfen:
+    - Ein Projekt **beansprucht den Schlüssel, hat aber keine Importtätigkeit** (kein
+      projektbezogener Override und keine Standard-Tätigkeit des Kunden). Das ist ein Fehler des
+      *beanspruchenden* Projekts, keine fehlende Beanspruchung – es fehlt die Tätigkeit, also
+      beheben Sie es, indem Sie eine Importtätigkeit hinterlegen.
+    - Ein **nicht beanspruchter Schlüssel ohne Standardprojekt** (kein Projekt beansprucht den
+      Schlüssel, automatisches Anlegen ist aus, und der Kunde hat kein `jira_import_project`). Das
+      unterscheidet sich von Fall 2: Ein nicht beanspruchter Schlüssel mit konfiguriertem Standard
+      fällt einfach auf diesen Standard zurück – erst ein *fehlender* Standard macht daraus einen
+      Fehler.
 
 **Abwärtskompatibel:** Beansprucht kein Projekt einen Schlüssel, verwendet jedes Worklog den
 Standard des Kunden – exakt das Verhalten mit einem Ziel wie vor dieser Funktion.

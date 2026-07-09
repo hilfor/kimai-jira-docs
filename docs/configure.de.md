@@ -70,6 +70,12 @@ Kimais eigene Cron-Jobs laufen:
 Damit per Cron versandte E-Mails auf Ihre Instanz verweisen, setzen Sie `framework.router.default_uri`
 in Ihrer Kimai-Konfiguration, sodass Links auf Ihre echte Domain statt auf `localhost` zeigen.
 
+!!! note "Der `kimai:jira:sync`-Cron trägt auch den Lizenz-Heartbeat"
+    Sync und Import laufen nur mit einer gültigen Lizenz. Über das Nachtragen von Worklogs hinaus
+    trägt der Cron `kimai:jira:sync` den täglichen Lizenz-Heartbeat – das Einzige, das die
+    Offline-Veraltungs-Uhr zurücksetzt. Bleibt er ungeplant, degradiert eine bezahlte, online
+    betriebene Installation ihre Jira-Funktionen nach ~44 Tagen. Siehe [Lizenz](licensing.md).
+
 ## Referenz der kundenbezogenen Felder
 
 Jede Jira-Einstellung liegt auf dem **Kunden-Bearbeitungsformular** (Kunden → Kunde bearbeiten →

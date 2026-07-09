@@ -13,6 +13,13 @@ bin/console cache:clear
 
 `kimai:plugins` sollte nun **JiraBundle** auflisten.
 
+## Lizenzschlüssel eingeben
+
+JiraBundle ist ein kostenpflichtiges Plugin – die Jira-Funktionen bleiben aus, bis ein gültiger
+Schlüssel gesetzt ist. Fügen Sie den beim Kauf erhaltenen Schlüssel unter **System → Einstellungen →
+Jira** ein oder setzen Sie die Umgebungsvariable `JIRA_LICENSE_KEY` (die Vorrang hat). Details, das
+Kulanzfenster und der `kimai:jira:sync`-Heartbeat finden Sie unter [Lizenz](licensing.md).
+
 ## Voraussetzungen
 
 - **Kimai** ≥ 2.21.0
@@ -55,9 +62,12 @@ bin/console kimai:bundle:jira:install
 bin/console cache:clear
 ```
 
-Die Migrationen des Plugins betreffen ausschließlich seine **eigene** Tabelle
-`kimai2_jira_token` – Kimais Kern-Tabellen werden nie verändert –, daher ist ein erneutes Ausführen
-des Installers auf einer bestehenden Installation unbedenklich.
+Die Migrationen des Plugins legen seine **eigene** Tabelle `kimai2_jira_token` an und verwalten sie
+und tragen zwei plugin-eigene Zeilen in Kimais gemeinsame Tabelle `kimai2_configuration` ein –
+`jira.token_key` (den Schlüssel zur Token-Verschlüsselung) und `jira.license_state` (den Anker der
+Lizenz-Uhr). Beide werden nur eingetragen, wenn sie noch fehlen, daher ist ein erneutes Ausführen
+des Installers auf einer bestehenden Installation unbedenklich und überschreibt keinen der beiden
+Werte.
 
 !!! warning "Das Upgrade von einer Release mit globaler Konfiguration ist ein harter Umstieg"
     Diese Release verschiebt die Jira-Konfiguration von der bisherigen Seite **System →
@@ -67,11 +77,27 @@ des Installers auf einer bestehenden Installation unbedenklich.
     konfigurieren** (Server-URL, Auth-Modus, Import-Optionen – siehe [Einrichtung](configure.md))
     und jeder Benutzer muss **ein Token pro Kunde neu eingeben**.
 
-!!! warning "`APP_SECRET` nicht ohne dedizierten Token-Schlüssel rotieren"
-    Gespeicherte Jira-Token werden standardmäßig mit einem aus Kimais `APP_SECRET` abgeleiteten
-    Schlüssel verschlüsselt. Ändert sich `APP_SECRET`, wird **jedes gespeicherte Token
-    unentschlüsselbar** und jede Person muss ihr Token neu eingeben. Wenn Ihre Umgebung
-    `APP_SECRET` rotiert, setzen Sie zuvor eine dedizierte Umgebungsvariable `JIRA_TOKEN_KEY` – der
-    Vault leitet seinen Schlüssel dann daraus ab, sodass beide unabhängig rotieren können.
+!!! warning "Der Token-Schlüssel liegt in der Datenbank – sichern Sie ihn als Einheit"
+    Gespeicherte Jira-Token werden mit einem Schlüssel verschlüsselt, der einmalig bei der
+    Installation erzeugt und in Ihrer Kimai-Datenbank abgelegt wird (Zeile `jira.token_key` in
+    `kimai2_configuration`). Da der Schlüssel mit der Datenbank wandert, trägt eine normale
+    Datenbank-Sicherung oder -Migration ihn mit – stellen Sie die Datenbank wieder her, und die
+    gespeicherten Token lassen sich wieder entschlüsseln. Eine Rotation von Kimais `APP_SECRET`
+    betrifft gespeicherte Token **nicht mehr**. Verloren gehen die Token nur, wenn diese
+    Datenbank-Zeile verloren geht: Spielen Sie die Anwendungsdateien auf eine **leere** oder andere
+    Datenbank zurück oder löschen Sie die Zeile, wird jedes gespeicherte Token unentschlüsselbar und
+    jede Person muss ihr Token neu eingeben.
+
+!!! note "Fortgeschritten: den Schlüssel mit `JIRA_TOKEN_KEY` festlegen"
+    Normalerweise müssen Sie das nie anfassen. `JIRA_TOKEN_KEY` ist ein **Override** – ist die
+    Variable gesetzt, verwendet der Vault sie anstelle des in der Datenbank gespeicherten Schlüssels,
+    für Umgebungen, die den Schlüssel lieber zusammen mit ihren übrigen Geheimnissen verwalten. Auf
+    einer Installation, die **bereits Token gespeichert hat**, setzen Sie nicht einfach einen neuen
+    `JIRA_TOKEN_KEY`: Diese Token wurden mit dem Datenbank-Schlüssel verschlüsselt, und das Festlegen
+    eines anderen Schlüssels macht sie allesamt unbrauchbar. Um sicher auf einen festgelegten
+    Schlüssel umzustellen, kopieren Sie den bestehenden Wert aus der Zeile `jira.token_key` und
+    setzen `JIRA_TOKEN_KEY` auf genau diesen Wert; prüfen Sie dann, dass eine Person ihr
+    gespeichertes Token weiterhin laden kann, bevor Sie die Zeile entfernen. Ein `JIRA_TOKEN_KEY` von
+    Grund auf ist nur für eine brandneue Installation ohne bereits gespeicherte Token gedacht.
 
 Weiter: [Einrichtung](configure.md).
