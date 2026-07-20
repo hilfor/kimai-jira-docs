@@ -45,7 +45,7 @@ jobs:
             exit 1
           fi
           echo "All pages have a German translation."
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           # Pinned to a specific minor (no floating '3.x'); Dependabot's github-actions +
           # pip updates keep the toolchain and requirements current.
