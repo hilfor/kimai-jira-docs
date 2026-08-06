@@ -3,9 +3,10 @@
 Public documentation site for the **JiraBundle** Kimai plugin (Jira worklog sync). Published to
 GitHub Pages via MkDocs Material — free, because this repo is public.
 
-**This repo contains only the user-facing docs** — never the plugin source, tests, or internal
-planning. The plugin itself lives in a separate private repository; that is what "features
-visible, internals hidden" means here.
+**This repo contains only the user-facing docs** — never the plugin's source, its tests, or
+its internal planning. The plugin itself lives in a separate private repository; that is what
+"features visible, internals hidden" means here. Notes about this repo's own toolchain
+(`DECISIONS.md`) are not plugin internals and are fine here.
 
 ## Contents
 
@@ -13,6 +14,7 @@ visible, internals hidden" means here.
 - `docs/features/*.md` — one guide per capability.
 - `docs/img/*.png` — screenshots.
 - `mkdocs.yml` — site config; `.github/workflows/deploy.yml` — build + Pages deploy.
+- `DECISIONS.md` — toolchain decision records (not published to the site).
 
 ## Source of truth
 
