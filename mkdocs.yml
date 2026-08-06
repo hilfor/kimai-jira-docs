@@ -88,5 +88,5 @@ plugins:
             "Notifications & visibility": "Benachrichtigungen & Sichtbarkeit"
             Troubleshooting: Fehlerbehebung
 
-# Only the docs/ tree is built into the site — no plugin source, tests, or internal planning is
-# present in this repository at all (see README).
+# Only the docs/ tree is built into the site — nothing plugin-internal (source, tests, planning)
+# is present in this repository at all (see README).
