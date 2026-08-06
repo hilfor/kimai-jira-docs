@@ -56,6 +56,8 @@ wöchentlichen Zusammenfassung –, sodass eine fehlende Kostenstelle bei der Re
 
 - **[Installation](install.md)** – das ZIP nach `var/plugins/` entpacken, den Installer ausführen
   (inkl. Voraussetzungs-Check für Ihr DevOps-Team).
+- **[Lizenz kaufen](licensing.md#lizenz-kaufen)** – das Abonnement für 49 €/Jahr; der signierte
+  Schlüssel kommt per E-Mail.
 - **[Einrichtung](configure.md)** – kundenbezogene Server-URL, kundenbezogene Token und die
   Cron-Einträge.
 - **[Anleitungen](features/worklog-sync.md)** – eine Seite pro Funktion: Worklog-Sync, Import,

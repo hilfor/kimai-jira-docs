@@ -50,6 +50,8 @@ a surprise at invoicing time ([custom fields](features/custom-fields.md)):
 
 - **[Install](install.md)** — drop the ZIP into `var/plugins/`, run the installer (with a
   requirements check for your DevOps).
+- **[Buy a license](licensing.md#buy-a-license)** — the 49 €/year subscription; the signed key
+  arrives by email.
 - **[Configure](configure.md)** — per-customer server URL, per-customer tokens, and the cron
   entries.
 - **[Guides](features/worklog-sync.md)** — a page per capability: worklog sync, importing,

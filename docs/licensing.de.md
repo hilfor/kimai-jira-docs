@@ -2,9 +2,21 @@
 
 JiraBundle ist ein kostenpflichtiges Plugin. Die Kimai-Zeiterfassung läuft stets ohne Lizenz, doch
 die **eigenen Jira-Funktionen des Plugins – Worklog-Sync, Import und die Live-Vorgangssuche – laufen
-nur mit einem gültigen Lizenzschlüssel.** Diese Seite beschreibt, woher der Schlüssel kommt, die
-beiden Wege, ihn zu setzen, und was genau geschieht, wenn ein Abonnement ausläuft oder der Schlüssel
-nicht geprüft werden kann.
+nur mit einem gültigen Lizenzschlüssel.** Diese Seite beschreibt, wie Sie die Lizenz kaufen, woher
+der Schlüssel kommt, die beiden Wege, ihn zu setzen, und was genau geschieht, wenn ein Abonnement
+ausläuft oder der Schlüssel nicht geprüft werden kann.
+
+## Lizenz kaufen
+
+JiraBundle wird als **Abonnement für 49 €/Jahr** verkauft. Kaufen Sie es hier:
+**[JiraBundle kaufen – 49 €/Jahr](https://buy.stripe.com/00wbJ32Bhfyo0AQevdefC01)**.
+
+Nach dem Bezahlvorgang erhalten Sie den signierten Lizenzschlüssel per E-Mail. Fügen Sie ihn in
+Kimai unter **System → Einstellungen → Jira** ein – [Den Schlüssel setzen](#den-schlussel-setzen)
+weiter unten beschreibt beide Wege, ihn bereitzustellen, und welcher Vorrang hat.
+
+Ein Eintrag im Kimai-Marktplatz ist eingereicht, aber noch nicht verfügbar; bis dahin führt der
+Kauf über den Bezahllink oben.
 
 ## Woher der Schlüssel kommt
 
