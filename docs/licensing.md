@@ -2,8 +2,20 @@
 
 JiraBundle is a paid plugin. Kimai time tracking always runs unlicensed, but the plugin's **own
 Jira features — worklog sync, import, and the live issue lookup — only run with a valid license
-key.** This page covers where the key comes from, the two ways to set it, and exactly what happens
-when a subscription lapses or the key can't be checked.
+key.** This page covers how to buy the license, where the key comes from, the two ways to set it,
+and exactly what happens when a subscription lapses or the key can't be checked.
+
+## Buy a license
+
+JiraBundle is sold as a **49 €/year subscription**. Purchase it here:
+**[Buy JiraBundle — 49 €/year](https://buy.stripe.com/00wbJ32Bhfyo0AQevdefC01)**.
+
+After checkout, the signed license key arrives by email. Paste it in Kimai under
+**System → Settings → Jira** — [Setting the key](#setting-the-key) below covers both ways to
+provide it and which one wins.
+
+A listing on the Kimai marketplace has been submitted but is not yet live; until then, the
+checkout link above is the way to buy.
 
 ## Where the key comes from
 
