@@ -15,8 +15,9 @@ Nach dem Bezahlvorgang erhalten Sie den signierten Lizenzschlüssel per E-Mail. 
 Kimai unter **System → Einstellungen → Jira** ein – [Den Schlüssel setzen](#den-schlussel-setzen)
 weiter unten beschreibt beide Wege, ihn bereitzustellen, und welcher Vorrang hat.
 
-Ein Eintrag im Kimai-Marktplatz ist eingereicht, aber noch nicht verfügbar; bis dahin führt der
-Kauf über den Bezahllink oben.
+JiraBundle ist auch im
+[Kimai-Marktplatz](https://www.kimai.org/en/store/jira-sync.html) gelistet; Sie können es dort oder
+über den Bezahllink oben kaufen.
 
 ## Woher der Schlüssel kommt
 
@@ -24,22 +25,32 @@ Sie erhalten den Lizenzschlüssel per E-Mail beim Kauf des Abonnements – diese
 das Release-ZIP. Es handelt sich um ein signiertes Token (`v1.<payload>.<signature>`); fügen Sie es
 unverändert ein, einschließlich des Präfixes `v1.`.
 
+Auch der Beginn eines Testzeitraums sendet einen Schlüssel per E-Mail, gültig bis zum Ende des
+Testzeitraums. Nach jeder erfolgreichen Verlängerungszahlung kommt ein neuer Schlüssel per E-Mail,
+und die tägliche Lizenzprüfung ruft automatisch einen verlängerten Schlüssel ab, wenn sie den
+Lizenzdienst erreicht (siehe [Verlängerung und Ablauf](#verlangerung-und-ablauf)). Eine
+fehlgeschlagene Verlängerungszahlung sendet keinen Schlüssel.
+
 ## Den Schlüssel setzen
 
 Es gibt zwei Wege, ihn bereitzustellen, und sie haben eine **bewusste Rangfolge**:
 
 1. **Umgebungsvariable `JIRA_LICENSE_KEY`** – für Container- und automatisierte Deployments. **Diese
-   gewinnt.** Ist sie gesetzt und nicht leer, verwendet das Plugin sie und ignoriert den Wert aus der
-   Systemkonfiguration.
-2. **Systemkonfiguration** – öffnen Sie als Administrator **System → Einstellungen → Jira** und fügen
-   Sie den Schlüssel in das Feld **Lizenzschlüssel** ein. Wird verwendet, sobald `JIRA_LICENSE_KEY`
-   nicht gesetzt oder leer ist.
+gewinnt.** Ist sie gesetzt und nicht leer, verwendet das Plugin sie und ignoriert den Wert aus der
+Systemkonfiguration. 2. **Systemkonfiguration** – öffnen Sie als Administrator **System →
+Einstellungen → Jira** und fügen Sie den Schlüssel in das Feld **Lizenzschlüssel** ein. Wird
+verwendet, sobald `JIRA_LICENSE_KEY` nicht gesetzt oder leer ist.
 
 !!! note "Die Umgebungsvariable überschreibt das Einstellungsfeld"
     Ist `JIRA_LICENSE_KEY` gesetzt, hat das Bearbeiten des Schlüssels unter **System → Einstellungen
     → Jira** keine Wirkung – die Umgebungsvariable wird zuerst gelesen und beendet die Suche vorzeitig.
     Verwalten Sie den Schlüssel bei einem containerisierten Deployment über die Umgebungsvariable und
     lassen Sie das Einstellungsfeld leer, um Verwechslungen zu vermeiden.
+
+Ein Verlängerungsschlüssel, den das Plugin selbst abgerufen hat, hat Vorrang vor beiden, solange der
+konfigurierte Schlüssel eine gültige Signatur trägt, auch nach seinem Ablauf. Ein Schlüssel, den Sie
+für dasselbe Abonnement mit späterem Ablaufdatum einfügen, hat Vorrang vor dem abgerufenen. Siehe
+[Verlängerung und Ablauf](#verlangerung-und-ablauf).
 
 ## Offline-Verifizierung
 
@@ -51,13 +62,33 @@ Offline-Veraltungs-Uhr weiter unten).
 
 ## Das Kulanzfenster: was aussetzt und wann
 
-Läuft eine Lizenz ab, wird sie widerrufen oder veraltet sie (siehe unten), werden die Jira-Funktionen
-**nicht** sofort abgeschaltet. Es gibt ein **14-tägiges Kulanzfenster**: die Funktionen laufen
-weiter, und Kimai zeigt ein eskalierendes Banner mit einem Countdown der verbleibenden Tage. Das
-Banner lautet:
+Läuft eine Lizenz ab, wird sie widerrufen oder veraltet sie (siehe unten), werden die
+Jira-Funktionen **nicht** sofort abgeschaltet. Es gibt ein **14-tägiges Kulanzfenster**: die
+Funktionen laufen weiter, und Kimai zeigt ein eskalierendes Banner mit einem Countdown der
+verbleibenden Tage. Das Banner nennt die Ursache:
 
-> Jira subscription lapsed — sync keeps working for *N* more day(s), then Jira features are
-> disabled. Renew and update the license key under System settings.
+**Der Schlüssel ist abgelaufen.** Sein Ablaufdatum ist überschritten, und noch kein verlängerter
+Schlüssel ist eingetroffen:
+
+> Ihr Jira-Lizenzschlüssel ist am *Datum* abgelaufen. Die Jira-Synchronisierung läuft noch *N*
+> Tag(e). Solange die tägliche Lizenzprüfung (kimai:jira:sync) läuft, wird der
+> Verlängerungsschlüssel nach der Zahlung automatisch abgerufen. Andernfalls fügen Sie den Schlüssel
+> aus der Verlängerungs-E-Mail in den Systemeinstellungen ein.
+
+**Das Abonnement ist inaktiv.** Der Lizenzdienst meldet eine fehlgeschlagene Zahlung oder ein
+gekündigtes Abonnement:
+
+> Der Lizenzdienst meldet dieses Jira-Abonnement als inaktiv (Zahlung fehlgeschlagen oder Abonnement
+> gekündigt). Die Jira-Synchronisierung läuft noch *N* Tag(e). Nach erfolgreicher Zahlung stellt die
+> nächste tägliche Lizenzprüfung es wieder her. Details in den Systemeinstellungen.
+
+**Die Lizenzprüfung ist veraltet.** Kimai hat den Lizenzdienst innerhalb des
+[Offline-Veraltungs-Fensters](#die-offline-veraltungs-uhr-air-gapped-installationen) nicht erreicht:
+
+> Kimai hat den Jira-Lizenzdienst seit dem *Datum* nicht erreicht. Die Jira-Synchronisierung läuft
+> noch *N* Tag(e). Prüfen Sie, ob kimai:jira:sync läuft und den Lizenz-Host erreichen kann.
+
+Jedes Banner endet mit der Adresse der Einstellungsseite.
 
 Sind die 14 Tage verstrichen, werden die Jira-Funktionen des Plugins **abgeschaltet**:
 
@@ -82,7 +113,8 @@ Abonnement zu bemerken (eine Rückerstattung oder Rückbuchung). Dazu dient ein 
 **Widerrufs-Heartbeat**, der über den Cron `kimai:jira:sync` läuft. Der Heartbeat ist
 **fail-open**: nur eine ausdrückliche „widerrufen/inaktiv“-Antwort des Lizenzdienstes startet die
 Kulanz-Uhr. Ein nicht erreichbarer Endpunkt, eine Nicht-2xx-Antwort oder nicht parsebares JSON wird
-als „unbekannt“ verbucht und deaktiviert eine funktionierende Instanz nie.
+als „unbekannt“ verbucht und deaktiviert eine funktionierende Instanz nie. Dieselbe Prüfung ruft
+Verlängerungsschlüssel ab (siehe [Verlängerung und Ablauf](#verlangerung-und-ablauf)).
 
 !!! warning "Planen Sie `kimai:jira:sync` ein, sonst degradiert Ihre bezahlte Installation von selbst"
     Der Cron `kimai:jira:sync` ist das **einzige**, das die Offline-Veraltungs-Uhr (unten)
@@ -116,21 +148,38 @@ Tagen** ohne erfolgreichen Kontakt mit dem Lizenzdienst startet die Veraltung da
     Setzen Sie auf einer bewusst offline betriebenen Installation `JIRA_LICENSE_OFFLINE_GRACE_DAYS=0`.
     Der signierte Schlüssel bleibt für seine gesamte Laufzeit maßgeblich, und die Offline-Uhr greift
     nie. Sie erhalten dann keine Widerrufs-Aktualisierungen – das ist der Preis dafür, vollständig
-    vom Lizenzdienst entkoppelt zu laufen.
+    vom Lizenzdienst entkoppelt zu laufen. Das Plugin kann auch keine Verlängerungsschlüssel abrufen;
+    fügen Sie daher bei jeder Verlängerung den Schlüssel aus der E-Mail ein.
 
 ## Verlängerung und Ablauf
 
-- **Verlängern** Sie, indem Sie den Schlüssel aktualisieren – fügen Sie den neuen Schlüssel unter
-  **System → Einstellungen → Jira** ein oder aktualisieren Sie die Umgebungsvariable
-  `JIRA_LICENSE_KEY`. Beim nächsten Lauf von `kimai:jira:sync` prüft der Heartbeat das Abonnement
-  erneut und aktiviert die Funktionen wieder; in der Warteschlange stehende Worklogs werden dann
-  nachgetragen.
-- Ein **anhaltender Ausfall des Lizenzdienstes selbst** (~44 Tage: 30 Veraltung + 14 Kulanz) wird
-  schließlich die Jira-Funktionen auf ansonsten gesunden, online betriebenen, bezahlten
-  Installationen deaktivieren. Kimai und Ihre Daten bleiben unberührt, und das Plugin **heilt sich
-  selbst** beim nächsten erfolgreichen Kontakt. Falls dieser Kompromiss für Sie relevant ist –
-  air-gapped, bewusst offline oder Sie möchten sich vollständig von der Verfügbarkeit des Anbieters
-  entkoppeln – setzen Sie `JIRA_LICENSE_OFFLINE_GRACE_DAYS=0`.
+- **Die Verlängerung läuft automatisch**, solange `kimai:jira:sync` läuft und den Lizenzdienst
+  erreicht. Nach erfolgreicher Verlängerungszahlung ruft die tägliche Lizenzprüfung den neuen
+  Schlüssel vom Lizenzdienst ab, prüft ihn (Signatur, gleicher Kunde, späteres Ablaufdatum),
+  speichert ihn und verwendet ihn fortan statt des konfigurierten Schlüssels. Sie müssen nichts
+  einfügen. - Der automatische Abruf setzt voraus, dass der Lizenz-Host `https` verwendet oder
+  `JIRA_ALLOW_INSECURE_URL` gesetzt ist. Der Standard-Host verwendet `https`. Das betrifft Sie daher
+  nur, wenn Sie `JIRA_LICENSE_HOST` überschreiben. `JIRA_ALLOW_INSECURE_URL` deaktiviert auch die
+  Prüfung der Jira-Server-URL. Über einfaches `http` läuft die tägliche Prüfung weiterhin als
+  Widerrufsprüfung, sendet aber den Schlüssel nicht und ruft keinen Verlängerungsschlüssel ab. -
+  **Fügen Sie den Schlüssel aus der Verlängerungs-E-Mail** unter **System → Einstellungen → Jira**
+  ein oder aktualisieren Sie die Umgebungsvariable `JIRA_LICENSE_KEY`, wenn der Cron nicht läuft
+  oder den Lizenzdienst nicht erreicht (air-gapped mit `JIRA_LICENSE_OFFLINE_GRACE_DAYS=0` oder
+  hinter einer Firewall), der Lizenz-Host einfaches `http` verwendet oder der alte Schlüssel vor
+  mehr als 30 Tagen abgelaufen ist. Ein von Hand eingefügter neuerer Schlüssel hat Vorrang vor einem
+  abgerufenen. Beim nächsten Lauf von `kimai:jira:sync` prüft der Heartbeat das Abonnement erneut
+  und aktiviert die Funktionen wieder; in der Warteschlange stehende Worklogs werden dann
+  nachgetragen. - Eine **fehlgeschlagene Verlängerungszahlung** sendet keinen Schlüssel. Der
+  Lizenzdienst meldet das Abonnement als inaktiv, und das Kulanzfenster beginnt; nach erfolgreicher
+  Zahlung stellt die nächste tägliche Prüfung es wieder her. - Wenn Sie den konfigurierten Schlüssel
+  leeren, verliert die Installation weiterhin ihre Lizenz. Ein abgerufener Schlüssel ersetzt nie
+  einen konfigurierten Schlüssel, dessen Signatur ungültig ist. - Ein **anhaltender Ausfall des
+  Lizenzdienstes selbst** (~44 Tage: 30 Veraltung + 14 Kulanz) wird schließlich die Jira-Funktionen
+  auf ansonsten gesunden, online betriebenen, bezahlten Installationen deaktivieren. Kimai und Ihre
+  Daten bleiben unberührt, und das Plugin **heilt sich selbst** beim nächsten erfolgreichen Kontakt.
+  Falls dieser Kompromiss für Sie relevant ist – air-gapped, bewusst offline oder Sie möchten sich
+  vollständig von der Verfügbarkeit des Anbieters entkoppeln – setzen Sie
+  `JIRA_LICENSE_OFFLINE_GRACE_DAYS=0`.
 
-Wenn Jira-Funktionen unerwartet aussetzen, siehe
-[Fehlerbehebung → Jira-Funktionen funktionieren nicht mehr](features/troubleshooting.md#jira-funktionen-funktionieren-nicht-mehr).
+Wenn Jira-Funktionen unerwartet aussetzen, siehe [Fehlerbehebung → Jira-Funktionen funktionieren
+nicht mehr](features/troubleshooting.md#jira-funktionen-funktionieren-nicht-mehr).
