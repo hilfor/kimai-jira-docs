@@ -6,5 +6,5 @@
 # fixes flowing via Dependabot until then. The >=9.7.7 floor is deliberate - 9.7.7 ships the
 # DOM-XSS fix in Material's search; never pin below it. Re-evaluate per the trigger and date
 # backstop in DECISIONS.md (Zensical roadmap: https://zensical.org/about/roadmap/).
-mkdocs-material>=9.7.7,<10
+mkdocs-material>=9.8.0,<10
 mkdocs-static-i18n>=1.3.1,<2
